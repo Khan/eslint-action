@@ -12,17 +12,17 @@ const gitChangedFiles = async (
     cwd /*:string*/,
 ) /*: Promise<Array<string>>*/ => {
     cwd = path.resolve(cwd);
-    const {stdout, stderr} = await execProm(
+    const { stdout } = await execProm(
         `git diff --name-only ${base} --relative`,
-        {cwd, encoding: 'utf8', rejectOnError: true},
+        { cwd, encoding: 'utf8', rejectOnError: true },
     );
     return (
         stdout
             .split('\n')
             .filter(Boolean)
-            .map(name => path.join(cwd, name))
+            .map((name) => path.join(cwd, name))
             // Filter out paths that were deleted
-            .filter(path => fs.existsSync(path))
+            .filter((path) => fs.existsSync(path))
     );
 };
 
