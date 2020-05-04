@@ -1,0 +1,12 @@
+name: 'Eslint Action'
+description: 'Run eslint and report the results inline'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+inputs:
+  eslint-lib:
+    required: true
+    description: 'Path to your eslint library, probably node_modules/eslint'
+branding:
+  icon: check-circle
+  color: red

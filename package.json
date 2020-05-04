@@ -1,0 +1,21 @@
+{
+    "name": "eslint-action",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:Khan/flow-coverage-action.git",
+    "author": "Jared Forsyth <jared@jaredforsyth.com>",
+    "license": "MIT",
+    "scripts": {
+        "dist": "ncc build flow-coverage.js"
+    },
+    "dependencies": {
+        "@actions/github": "^2.1.1",
+        "@babel/core": "^7.9.6",
+        "@babel/register": "^7.9.0",
+        "@zeit/ncc": "^0.22.1",
+        "chalk": "^4.0.0",
+        "cli-highlight": "^2.1.4",
+        "flow-bin": "^0.123.0",
+        "metro-react-native-babel-preset": "^0.59.0"
+    }
+}
