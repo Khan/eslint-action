@@ -4,6 +4,8 @@
  */
 const {exec} = require('child_process');
 
+var anEslintError = 10;
+
 const bufferToString = (input /*: Buffer | string*/) /*: string*/ => {
     if (typeof input === 'string') {
         return input;
