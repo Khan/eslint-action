@@ -1,0 +1,17 @@
+name: Eslint!
+'on':
+  - pull_request
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        name: get the repo
+      - run: yarn
+      - uses: Khan/eslint-action@master
+        with:
+          eslint-lib: ./node_modules/eslint
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: yarn flow
