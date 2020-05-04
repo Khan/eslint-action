@@ -2,11 +2,11 @@
     "name": "eslint-action",
     "version": "1.0.0",
     "main": "index.js",
-    "repository": "git@github.com:Khan/flow-coverage-action.git",
+    "repository": "git@github.com:Khan/eslint-action.git",
     "author": "Jared Forsyth <jared@jaredforsyth.com>",
     "license": "MIT",
     "scripts": {
-        "dist": "ncc build flow-coverage.js"
+        "dist": "ncc build eslint.js"
     },
     "dependencies": {
         "@actions/github": "^2.1.1",
