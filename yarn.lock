@@ -793,6 +793,15 @@ acorn@^6.0.7:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.4.1.tgz#531e58ba3f51b9dacb9a6646ca4debf5b14ca474"
   integrity sha512-ZVA9k326Nwrj3Cj9jlh3wGFutC2ZornPNARZwsNYqQYgN0EsV2d53w5RN/co65Ohn4sUAUtb1rSUAOD6XN9idA==
 
+actions-utils@Khan/actions-utils#gitattributes:
+  version "1.0.0"
+  resolved "https://codeload.github.com/Khan/actions-utils/tar.gz/7bd824543f23b90b3908caae0a1ef1088d7ea67f"
+  dependencies:
+    "@actions/github" "^2.1.1"
+    chalk "^4.0.0"
+    cli-highlight "^2.1.4"
+    minimatch "^3.0.4"
+
 ajv@^6.10.2, ajv@^6.9.1:
   version "6.12.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.2.tgz#c629c5eced17baf314437918d2da88c99d5958cd"

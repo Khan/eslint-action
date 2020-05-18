@@ -16,9 +16,9 @@
 require('@babel/register'); // flow-uncovered-line
 
 // TODO(jared): Bring these out into a shared npm package
-const sendReport = require('./send-report');
-const gitChangedFiles = require('./git-changed-files');
-const getBaseRef = require('./get-base-ref');
+const sendReport = require('actions-utils/send-report');
+const gitChangedFiles = require('actions-utils/git-changed-files');
+const getBaseRef = require('actions-utils/get-base-ref');
 
 const path = require('path');
 const chalk = require('chalk');

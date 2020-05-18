@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@actions/github": "^2.1.1",
+        "actions-utils": "Khan/actions-utils#gitattributes",
         "@babel/core": "^7.9.6",
         "@babel/register": "^7.9.0",
         "@zeit/ncc": "^0.22.1",
