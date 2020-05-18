@@ -8,8 +8,9 @@
     "scripts": {
         "dist": "ncc build eslint.js"
     },
-    "dependencies": {
+    "devDependencies": {
         "@actions/github": "^2.1.1",
+        "actions-workflow-tools": "Khan/actions-workflow-tools#master",
         "actions-utils": "Khan/actions-utils#gitattributes",
         "@babel/core": "^7.9.6",
         "@babel/register": "^7.9.0",

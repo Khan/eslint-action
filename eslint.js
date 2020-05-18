@@ -88,7 +88,13 @@ async function run() {
         return;
     }
     // const [_, __, eslintDirectory] = process.argv;
-    const files = await gitChangedFiles(getBaseRef(), '.');
+    const baseRef = getBaseRef();
+    if (!baseRef) {
+        console.error(`No base ref given`);
+        process.exit(1);
+        return;
+    }
+    const files = await gitChangedFiles(baseRef, '.');
     const jsFiles = files.filter((file) => file.endsWith('.js'));
     if (!jsFiles.length) {
         console.log('No .js files changed');
