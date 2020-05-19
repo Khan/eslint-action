@@ -53,19 +53,24 @@ const eslintAnnotations = (
         files,
     );
     /* end flow-uncovered-block */
-    const { results } = report;
+    const {results} = report;
 
     const annotations = [];
     for (const result of results) {
-        const { filePath, messages } = result;
+        const {filePath, messages} = result;
         for (const msg of messages) {
-            const { line, column, severity, ruleId, message } = msg;
+            const {line, column, severity, ruleId, message} = msg;
             if (!ruleId || severity === 0) {
                 // it's probably the warning about a given file being ignored
                 // by .eslintignore, which is fine.
                 continue;
             }
-            annotations.push({path: filePath, start: { line, column }, end: { line, column }, annotationLevel: severity === 1 ? 'warning' : 'failure', message: `${chalk.red(`[${ruleId}]`)} ${message}`,
+            annotations.push({
+                path: filePath,
+                start: {line, column},
+                end: {line, column},
+                annotationLevel: severity === 1 ? 'warning' : 'failure',
+                message: `${chalk.red(`[${ruleId}]`)} ${message}`,
             });
         }
     }
@@ -90,7 +95,7 @@ async function run() {
         return;
     }
     const files = await gitChangedFiles(baseRef, '.');
-    const jsFiles = files.filter((file) => file.endsWith('.js'));
+    const jsFiles = files.filter(file => file.endsWith('.js'));
     if (!jsFiles.length) {
         console.log('No .js files changed');
         return;
@@ -100,7 +105,7 @@ async function run() {
 }
 
 // flow-next-uncovered-line
-run().catch((err) => {
+run().catch(err => {
     console.error(err); // flow-uncovered-line
     process.exit(1);
 });
