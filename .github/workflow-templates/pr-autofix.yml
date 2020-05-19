@@ -1,0 +1,36 @@
+name: Autofixers
+
+# Our autofixers are all put together in a single job (called autofix), to
+# reduce churn
+
+on:
+  - pull_request
+
+include:
+  # TODO: maybe something like:
+  # - ../../node_modules/my-shared-setup/_setup.yml
+  - _setup.yml
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    if: github.actor != 'khan-actions-bot'
+
+    steps:
+    ## Rebuild workflow file
+    - name: Rebuild github actions workflow
+      setup: yarn
+      paths: .github/workflow-templates/**
+      run: yarn make-workflows
+
+    - name: Rebuild our "dist" file
+      setup: yarn
+      run: yarn run dist
+
+    # - name: Prettier
+    #   setup: yarn
+    #   run: yarn prettier
+
+    - uses: Khan/autofix-commit-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.KHAN_ACTIONS_BOT_TOKEN }}
