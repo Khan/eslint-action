@@ -65,12 +65,7 @@ const eslintAnnotations = (
                 // by .eslintignore, which is fine.
                 continue;
             }
-            annotations.push({
-                path: filePath,
-                start: { line, column },
-                end: { line, column },
-                annotationLevel: severity === 1 ? 'warning' : 'failure',
-                message: `${chalk.red(`[${ruleId}]`)} ${message}`,
+            annotations.push({path: filePath, start: { line, column }, end: { line, column }, annotationLevel: severity === 1 ? 'warning' : 'failure', message: `${chalk.red(`[${ruleId}]`)} ${message}`,
             });
         }
     }
