@@ -41,7 +41,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: Khan/jest-action@master
-        setup: yarn
         with:
           jest-bin: ./node_modules/.bin/jest
         env:
