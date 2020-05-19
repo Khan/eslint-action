@@ -16,7 +16,7 @@ jobs:
           eslint-lib: ./node_modules/eslint
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - uses: Khan/flow-coverage-action@master
+      - uses: Khan/flow-coverage-action@dist
         with:
           flow-bin: ./node_modules/.bin/flow
         env:
