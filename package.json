@@ -10,11 +10,11 @@
     },
     "devDependencies": {
         "@actions/github": "^2.1.1",
-        "actions-workflow-tools": "Khan/actions-workflow-tools#master",
-        "actions-utils": "Khan/actions-utils#gitattributes",
         "@babel/core": "^7.9.6",
         "@babel/register": "^7.9.0",
         "@zeit/ncc": "^0.22.1",
+        "actions-utils": "Khan/actions-utils#gitattributes",
+        "actions-workflow-tools": "Khan/actions-workflow-tools#master",
         "babel-eslint": "^10.1.0",
         "chalk": "^4.0.0",
         "cli-highlight": "^2.1.4",
@@ -26,5 +26,8 @@
         "metro-react-native-babel-preset": "^0.59.0",
         "prettier": "^2.0.5",
         "prettier-eslint-cli": "^5.0.0"
+    },
+    "dependencies": {
+        "jest": "^26.0.1"
     }
 }
