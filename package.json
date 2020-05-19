@@ -16,7 +16,6 @@
         "actions-utils": "Khan/actions-utils#1c1003b530e083a11dae6f7447a2342a3121ea7a",
         "actions-workflow-tools": "Khan/actions-workflow-tools#b3a15ac947ddfeb8197ae1cc926fccfa0c4a649d",
         "babel-eslint": "^10.1.0",
-        "chalk": "^4.0.0",
         "cli-highlight": "^2.1.4",
         "eslint": "^5.8.0",
         "eslint-config-prettier": "^6.11.0",
@@ -28,6 +27,7 @@
         "prettier-eslint-cli": "^5.0.0"
     },
     "dependencies": {
-        "jest": "^26.0.1"
+        "jest": "^26.0.1",
+        "chalk": "^4.0.0"
     }
 }
