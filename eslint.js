@@ -104,6 +104,7 @@ async function run() {
     await sendReport('Eslint', annotations);
 }
 
+console.log('a thing to autofix dist');
 // flow-next-uncovered-line
 run().catch((err) => {
     console.error(err); // flow-uncovered-line
