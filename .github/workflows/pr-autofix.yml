@@ -13,8 +13,10 @@ jobs:
       - id: paths__github_workflow_templates_
         name: 'Check paths: .github/workflow-templates/**'
         run: >-
-          if [[ -n $(git diff --name-only refs/remotes/origin/$GITHUB_BASE_REF
-          --relative | grep '^\.github/workflow-templates/.*$') ]]
+          BASE=${GITHUB_BASE_REF:-HEAD~1}
+
+          if [[ -n $(git diff --name-only refs/remotes/origin/$BASE --relative |
+          grep '^\.github/workflow-templates/.*$') ]]
 
           then
 
@@ -33,7 +35,6 @@ jobs:
         run: yarn make-workflows
         if: steps.paths__github_workflow_templates_.outputs.changed == 'true'
       - name: Run prettier
-        working-directory: ./
         run: >-
           actions-utils/list-changed-files.js | grep '.*\.js$' | xargs npm run
           -s format-files
