@@ -34,7 +34,7 @@ jobs:
         if: steps.paths__github_workflow_templates_.outputs.changed == 'true'
       - name: Run prettier
         working-directory: ./
-        run: ./steps/list-changed-files.js | grep '.*\.js$' | yarn prettier
+        run: yarn prettier
       - name: Rebuild our "dist" file
         run: yarn run dist
       - uses: Khan/autofix-commit-action@master
