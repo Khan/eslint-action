@@ -1163,15 +1163,6 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.2.0.tgz#17ea7e40d7c8640ff54a694c889c26f31704effe"
   integrity sha512-apwXVmYVpQ34m/i71vrApRrRKCWQnZZF1+npOD0WV5xZFfwWOmKGQ2RWlfdy9vWITsenisM8M0Qeq8agcFHNiQ==
 
-actions-utils@Khan/actions-utils#5b0e4a790fd2a7efb414163c63d4e5eb1d99f0f8:
-  version "1.0.0"
-  resolved "https://codeload.github.com/Khan/actions-utils/tar.gz/5b0e4a790fd2a7efb414163c63d4e5eb1d99f0f8"
-  dependencies:
-    "@actions/github" "^2.1.1"
-    chalk "^4.0.0"
-    cli-highlight "^2.1.4"
-    minimatch "^3.0.4"
-
 actions-utils@Khan/actions-utils#7bd824543f23b90b3908caae0a1ef1088d7ea67f:
   version "1.0.0"
   resolved "https://codeload.github.com/Khan/actions-utils/tar.gz/7bd824543f23b90b3908caae0a1ef1088d7ea67f"
@@ -1180,7 +1171,16 @@ actions-utils@Khan/actions-utils#7bd824543f23b90b3908caae0a1ef1088d7ea67f:
     chalk "^4.0.0"
     cli-highlight "^2.1.4"
 
-actions-workflow-tools@Khan/actions-workflow-tools#b3a15ac947ddfeb8197ae1cc926fccfa0c4a649d:
+actions-utils@Khan/actions-utils#v1.0.0:
+  version "1.0.0"
+  resolved "https://codeload.github.com/Khan/actions-utils/tar.gz/5b0e4a790fd2a7efb414163c63d4e5eb1d99f0f8"
+  dependencies:
+    "@actions/github" "^2.1.1"
+    chalk "^4.0.0"
+    cli-highlight "^2.1.4"
+    minimatch "^3.0.4"
+
+actions-workflow-tools@Khan/actions-workflow-tools#v1.0.0:
   version "1.0.0"
   resolved "https://codeload.github.com/Khan/actions-workflow-tools/tar.gz/b3a15ac947ddfeb8197ae1cc926fccfa0c4a649d"
   dependencies:
