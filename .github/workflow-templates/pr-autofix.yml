@@ -24,9 +24,9 @@ jobs:
       run: yarn make-workflows
 
     - name: Run prettier
-        setup: yarn
-        working-directory: ./
-        run: ./steps/list-changed-files.js | grep '.*\.js$' | xargs npm run -s format-files
+      setup: yarn
+      working-directory: ./
+      run: ./steps/list-changed-files.js | grep '.*\.js$' | yarn prettier
 
     - name: Rebuild our "dist" file
       setup: yarn

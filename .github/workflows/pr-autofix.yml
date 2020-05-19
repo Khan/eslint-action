@@ -13,10 +13,8 @@ jobs:
       - id: paths__github_workflow_templates_
         name: 'Check paths: .github/workflow-templates/**'
         run: >-
-          BASE=${GITHUB_BASE_REF:-HEAD~1}
-
-          if [[ -n $(git diff --name-only refs/remotes/origin/$BASE --relative |
-          grep '^\.github/workflow-templates/.*$') ]]
+          if [[ -n $(git diff --name-only refs/remotes/origin/$GITHUB_BASE_REF
+          --relative | grep '^\.github/workflow-templates/.*$') ]]
 
           then
 
@@ -34,6 +32,9 @@ jobs:
       - name: Rebuild github actions workflow
         run: yarn make-workflows
         if: steps.paths__github_workflow_templates_.outputs.changed == 'true'
+      - name: Run prettier
+        working-directory: ./
+        run: ./steps/list-changed-files.js | grep '.*\.js$' | yarn prettier
       - name: Rebuild our "dist" file
         run: yarn run dist
       - uses: Khan/autofix-commit-action@master
