@@ -26,7 +26,7 @@ jobs:
     - name: Run prettier
       setup: yarn
       working-directory: ./
-      run: yarn prettier
+      run: actions-utils/list-changed-files.js | grep '.*\.js$' | xargs npm run -s format-files
 
     - name: Rebuild our "dist" file
       setup: yarn
