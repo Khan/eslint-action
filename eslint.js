@@ -26,7 +26,7 @@ const chalk = require('chalk');
 chalk.enabled = !process.env.GITHUB_TOKEN;
 
 /*::
-import type {Message} from './send-report';
+import type {Message} from 'actions-utils/send-report';
 */
 
 const eslintAnnotations = (
