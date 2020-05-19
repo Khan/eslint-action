@@ -34,6 +34,10 @@ jobs:
       - name: Rebuild github actions workflow
         run: yarn make-workflows
         if: steps.paths__github_workflow_templates_.outputs.changed == 'true'
+      - name: Run prettier
+        run: >-
+          node ./node_modules/actions-utils/list-changed-files.js | grep
+          '.*\.js$' | xargs npm run -s format-files
       - name: Rebuild our "dist" file
         run: yarn run dist
       - uses: Khan/autofix-commit-action@master
