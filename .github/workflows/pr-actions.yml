@@ -21,7 +21,7 @@ jobs:
           jest-bin: ./node_modules/.bin/jest
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - uses: Khan/flow-coverage-action@master
+      - uses: Khan/flow-coverage-action@9cc8679c3d58cb9cd7c4669c041b2db1919b9509
         with:
           flow-bin: ./node_modules/.bin/flow
         env:
