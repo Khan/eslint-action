@@ -26,7 +26,7 @@ const chalk = require('chalk');
 chalk.enabled = !process.env.GITHUB_TOKEN;
 
 /*::
-import type {Message} from './send-report';
+import type {Message} from 'actions-utils/send-report';
 */
 
 const eslintAnnotations = (
@@ -104,6 +104,7 @@ async function run() {
     await sendReport('Eslint', annotations);
 }
 
+console.log('a thing to autofix dist');
 // flow-next-uncovered-line
 run().catch((err) => {
     console.error(err); // flow-uncovered-line
