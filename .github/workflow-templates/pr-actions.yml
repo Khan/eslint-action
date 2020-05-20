@@ -1,4 +1,4 @@
-name: Lint and Unit test
+name: Lint and Unit Test
 'on':
   - pull_request
 
@@ -9,23 +9,43 @@ jobs:
   lint_and_unit:
     runs-on: ubuntu-latest
     steps:
-      - uses: Khan/eslint-action@master
+      - name: Run eslint
+        uses: Khan/eslint-action@master
         setup: yarn
         with:
           eslint-lib: ./node_modules/eslint
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: Khan/jest-action@master
+
+      - name: Run jest tests
+        uses: Khan/jest-action@master
         setup: yarn
-        with: 
+        with:
           jest-bin: ./node_modules/.bin/jest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: Khan/flow-coverage-action@9cc8679c3d58cb9cd7c4669c041b2db1919b9509
+
+      - name: Run jest coverage
+        uses: Khan/jest-coverage-action@master
+        setup: yarn
+        with:
+          jest-bin: ./node_modules/.bin/jest
+          coverage-data-path: ./coverage/coverage-final.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run flow
+        uses: Khan/flow-action@master
         setup: yarn
         with:
           flow-bin: ./node_modules/.bin/flow
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: yarn flow --color always --quiet
+
+      - name: Run flow coverage
+        uses: Khan/flow-coverage-action@master
         setup: yarn
+        with:
+          flow-bin: ./node_modules/.bin/flow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
