@@ -1172,9 +1172,18 @@ actions-utils@Khan/actions-utils#v1.0.0:
     cli-highlight "^2.1.4"
     minimatch "^3.0.4"
 
-actions-workflow-tools@Khan/actions-workflow-tools#v1.0.1:
-  version "1.0.0"
-  resolved "https://codeload.github.com/Khan/actions-workflow-tools/tar.gz/98622f0ab238ef5fcb05474ed9a17aac3b1d0277"
+actions-utils@Khan/actions-utils#v1.1.0:
+  version "1.1.0"
+  resolved "https://codeload.github.com/Khan/actions-utils/tar.gz/25b816f50f3804c6fb5dac38f5bab24c28185416"
+  dependencies:
+    "@actions/github" "^2.1.1"
+    chalk "^2.4.2"
+    cli-highlight "^2.1.4"
+    minimatch "^3.0.4"
+
+actions-workflow-tools@Khan/actions-workflow-tools#v1.1.0:
+  version "1.1.0"
+  resolved "https://codeload.github.com/Khan/actions-workflow-tools/tar.gz/3c331e2ba45155033267d6abe4d3f4f24efe99e4"
   dependencies:
     actions-utils Khan/actions-utils#v1.0.0
     chalk "^2.4.2"
