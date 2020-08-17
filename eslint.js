@@ -18,7 +18,7 @@ require('@babel/register'); // flow-uncovered-line
 const sendReport = require('actions-utils/send-report');
 const gitChangedFiles = require('actions-utils/git-changed-files');
 //const getBaseRef = require('get-base-ref-temp');
-const { execSync, spawnSync } = require('actions-utils/child_process');
+const { execSync, spawnSync } = require('child_process');
 
 const path = require('path');
 const chalk = require('chalk');
