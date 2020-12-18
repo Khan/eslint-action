@@ -1,6 +1,6 @@
 {
     "name": "eslint-action",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "main": "index.js",
     "repository": "git@github.com:Khan/eslint-action.git",
     "author": "Jared Forsyth <jared@jaredforsyth.com>",
@@ -17,8 +17,8 @@
         "@babel/core": "^7.9.6",
         "@babel/register": "^7.9.0",
         "@zeit/ncc": "^0.22.1",
-        "actions-utils": "Khan/actions-utils#v1.1.0",
-        "actions-workflow-tools": "Khan/actions-workflow-tools#v1.1.0",
+        "actions-utils": "Khan/actions-utils#v1.2.0",
+        "actions-workflow-tools": "Khan/actions-workflow-tools#v1.2.0",
         "babel-eslint": "^10.1.0",
         "chalk": "^2.4.2",
         "cli-highlight": "^2.1.4",
