@@ -79,6 +79,7 @@ const eslintAnnotations = (
 
 async function run() {
     const eslintDirectory = process.env['INPUT_ESLINT-LIB'];
+    const checkRun = process.env['INPUT_CHECK-RUN'];
     if (!eslintDirectory) {
         console.error(
             `You need to have eslint installed, and pass in the directory where it is located via the variable 'eslint-lib'.`,
@@ -100,7 +101,7 @@ async function run() {
         return;
     }
     const annotations = eslintAnnotations(eslintDirectory, jsFiles);
-    await sendReport('Eslint', annotations);
+    await sendReport(`Eslint${checkRun ? '- ' + checkRun : ''}`, annotations);
 }
 
 // flow-next-uncovered-line
