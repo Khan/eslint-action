@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run eslint
-        uses: Khan/eslint-action@master
+        uses: Khan/eslint-action@main
         setup: yarn
         with:
           eslint-lib: ./node_modules/eslint
@@ -18,7 +18,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run jest tests
-        uses: Khan/jest-action@master
+        uses: Khan/jest-action@main
         setup: yarn
         with:
           jest-bin: ./node_modules/.bin/jest
@@ -26,7 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run jest coverage
-        uses: Khan/jest-coverage-action@master
+        uses: Khan/jest-coverage-action@main
         setup: yarn
         with:
           jest-bin: ./node_modules/.bin/jest
@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run flow
-        uses: Khan/flow-action@master
+        uses: Khan/flow-action@main
         setup: yarn
         with:
           flow-bin: ./node_modules/.bin/flow
@@ -43,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run flow coverage
-        uses: Khan/flow-coverage-action@master
+        uses: Khan/flow-coverage-action@main
         setup: yarn
         with:
           flow-bin: ./node_modules/.bin/flow
