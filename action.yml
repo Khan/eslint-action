@@ -7,6 +7,9 @@ inputs:
   eslint-lib:
     required: true
     description: 'Path to your eslint library, probably node_modules/eslint'
+  check-run-subtitle:
+    required: false
+    description: 'A subtitle to add to the check run when annotations are passed back to avoid overwriting each other'
 branding:
   icon: check-circle
   color: red
