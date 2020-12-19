@@ -63,7 +63,6 @@ const eslintAnnotations = (
     //     })
     // });
 
-
     const annotations = [];
     for (const result of results) {
         const {filePath, messages} = result;
