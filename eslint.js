@@ -36,32 +36,22 @@ const eslintAnnotations = (
     // $FlowFixMe: flow can't handle custom requires
     const eslint = require(path.resolve(eslintDirectory));
 
-    // const cli = new eslint.CLIEngine();
-    // const report /*: {
-    //     results: Array<{
-    //         filePath: string,
-    //         messages: Array<{
-    //             line: number,
-    //             column: number,
-    //             severity: number,
-    //             ruleId: string,
-    //             message: string,
-    //         }>
-    //     }>
-    // } */ = cli.executeOnFiles(
-    //     files,
-    // );
-    // const {results} = report;
-
-    const results =
-        //files.map(item => {
-        //return ({
-        {
-            filePath: '.github/actions/cli/land.js',
-            messages: [
-                {line: 1, column: 1, severity: 2, ruleId: 'ruleId', message: files.join(',')},
-            ],
-        };
+    const cli = new eslint.CLIEngine();
+    const report /*: {
+        results: Array<{
+            filePath: string,
+            messages: Array<{
+                line: number,
+                column: number,
+                severity: number,
+                ruleId: string,
+                message: string,
+            }>
+        }>
+    } */ = cli.executeOnFiles(
+        files,
+    );
+    const {results} = report;
 
     const annotations = [];
     for (const result of results) {
@@ -88,7 +78,7 @@ const eslintAnnotations = (
 
 async function run() {
     const eslintDirectory = process.env['INPUT_ESLINT-LIB'];
-    const checkRun = process.env['INPUT_CHECK-RUN'];
+    const subtitle = process.env['INPUT_CHECK-RUN-SUBTITLE'];
     if (!eslintDirectory) {
         console.error(
             `You need to have eslint installed, and pass in the directory where it is located via the variable 'eslint-lib'.`,
@@ -110,7 +100,7 @@ async function run() {
         return;
     }
     const annotations = eslintAnnotations(eslintDirectory, jsFiles);
-    await sendReport(`Eslint${checkRun ? '- ' + checkRun : ''}`, annotations);
+    await sendReport(`Eslint${subtitle ? '- ' + subtitle : ''}`, annotations);
 }
 
 // flow-next-uncovered-line
