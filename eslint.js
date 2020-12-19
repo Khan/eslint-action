@@ -56,13 +56,12 @@ const eslintAnnotations = (
     const results =
         //files.map(item => {
         //return ({
-        {
+        [{
             filePath: '.github/actions/cli/land.js',
             messages: [
                 {line: 1, column: 1, severity: 2, ruleId: 'ruleId', message: files.join(',')},
             ],
-        };
-
+        }];
     const annotations = [];
     for (const result of results) {
         const {filePath, messages} = result;
