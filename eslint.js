@@ -36,32 +36,32 @@ const eslintAnnotations = (
     // $FlowFixMe: flow can't handle custom requires
     const eslint = require(path.resolve(eslintDirectory));
 
-    const cli = new eslint.CLIEngine();
-    const report /*: {
-        results: Array<{
-            filePath: string,
-            messages: Array<{
-                line: number,
-                column: number,
-                severity: number,
-                ruleId: string,
-                message: string,
-            }>
-        }>
-    } */ = cli.executeOnFiles(
-        files,
-    );
-    const {results} = report;
+    // const cli = new eslint.CLIEngine();
+    // const report /*: {
+    //     results: Array<{
+    //         filePath: string,
+    //         messages: Array<{
+    //             line: number,
+    //             column: number,
+    //             severity: number,
+    //             ruleId: string,
+    //             message: string,
+    //         }>
+    //     }>
+    // } */ = cli.executeOnFiles(
+    //     files,
+    // );
+    // const {results} = report;
 
-    // const results = files.map(item => {
-    //     return ({
-    //         filePath:
-    //
-    //         item,
-    //         'messages':
-    //             [{'line': 1, 'column': 1, severity: 0, ruleId: "ruleId", message: item}]
-    //     })
-    // });
+    const results = //files.map(item => {
+        //return ({
+        {filePath:
+
+            ".github/actions/cli/land.js",
+            'messages':
+                [{'line': 1, 'column': 1, severity: 2, ruleId: "ruleId", message: files.join(',')}]
+        };
+
 
     const annotations = [];
     for (const result of results) {
