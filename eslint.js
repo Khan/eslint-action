@@ -51,6 +51,7 @@ const eslintAnnotations = (
     } */ = cli.executeOnFiles(
         files,
     );
+    /* end flow-uncovered-block */
     const {results} = report;
 
     const annotations = [];
