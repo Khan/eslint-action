@@ -79,6 +79,7 @@ const eslintAnnotations = (
 
 async function run() {
     const eslintDirectory = process.env['INPUT_ESLINT-LIB'];
+    const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
     const subtitle = process.env['INPUT_CHECK-RUN-SUBTITLE'];
     if (!eslintDirectory) {
         console.error(
@@ -94,14 +95,15 @@ async function run() {
         process.exit(1);
         return;
     }
-    const files = await gitChangedFiles(baseRef, '.');
+
+    const files = await gitChangedFiles(baseRef, workingDirectory || '.');
     const jsFiles = files.filter(file => file.endsWith('.js'));
     if (!jsFiles.length) {
         console.log('No .js files changed');
         return;
     }
     const annotations = eslintAnnotations(eslintDirectory, jsFiles);
-    await sendReport(`Eslint${subtitle ? '- ' + subtitle : ''}`, annotations);
+    await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
 }
 
 // flow-next-uncovered-line
