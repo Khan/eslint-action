@@ -95,14 +95,16 @@ async function run() {
         process.exit(1);
         return;
     }
+    console.log(`wd: ${workingDirectory}`);
     const files = await gitChangedFiles(baseRef, workingDirectory ?? '.');
+    console.log(`cf: ${files.join(`\n`)}`);
     const jsFiles = files.filter(file => file.endsWith('.js'));
     if (!jsFiles.length) {
         console.log('No .js files changed');
         return;
     }
     const annotations = eslintAnnotations(eslintDirectory, jsFiles);
-    await sendReport(`Eslint${subtitle ? '- ' + subtitle : ''}`, annotations);
+    await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
 }
 
 // flow-next-uncovered-line
