@@ -96,7 +96,7 @@ async function run() {
         return;
     }
     console.log(`wd: ${workingDirectory}`);
-    const files = await gitChangedFiles(baseRef, workingDirectory ?? '.');
+    const files = await gitChangedFiles(baseRef, workingDirectory || '.');
     console.log(`cf: ${files.join(`\n`)}`);
     const jsFiles = files.filter(file => file.endsWith('.js'));
     if (!jsFiles.length) {
