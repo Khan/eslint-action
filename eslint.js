@@ -104,7 +104,7 @@ async function run() {
         return;
     }
     const annotations = eslintAnnotations(eslintDirectory, jsFiles);
-    await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
+    await sendReport(`Eslint${subtitle ? `wd: ${workingDirectory}` : ''}`, annotations);
 }
 
 // flow-next-uncovered-line
