@@ -97,9 +97,10 @@ async function run() {
     }
 
     const files = await gitChangedFiles(baseRef, workingDirectory || '.');
-    const jsFiles = files.filter(file => file.endsWith('.js'));
+    const validExt = ['js', 'jsx', 'mjs', 'ts', 'tsx'];
+    const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
     if (!jsFiles.length) {
-        console.log('No .js files changed');
+        console.log('No JavaScript files changed');
         return;
     }
     const annotations = eslintAnnotations(eslintDirectory, jsFiles);
