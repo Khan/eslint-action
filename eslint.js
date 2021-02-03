@@ -97,7 +97,7 @@ async function run() {
     }
 
     const files = await gitChangedFiles(baseRef, workingDirectory || '.');
-    const validExt = ['js', 'jsx', 'mjs', 'ts', 'tsx'];
+    const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
     if (!jsFiles.length) {
         console.log('No JavaScript files changed');
