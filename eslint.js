@@ -28,31 +28,49 @@ chalk.enabled = !process.env.GITHUB_TOKEN;
 import type {Message} from 'actions-utils/send-report';
 */
 
-const eslintAnnotations = (
+const eslintAnnotations = async (
     eslintDirectory /*: string*/,
     files /*: Array<string>*/,
-) /*: Array<Message>*/ => {
+) /*: Promise<Array<Message>>*/ => {
     /* flow-uncovered-block */
     // $FlowFixMe: flow can't handle custom requires
     const eslint = require(path.resolve(eslintDirectory));
 
-    const cli = new eslint.CLIEngine();
-    const report /*: {
-        results: Array<{
-            filePath: string,
-            messages: Array<{
-                line: number,
-                column: number,
-                severity: number,
-                ruleId: string,
-                message: string,
-            }>
+    let results /*: Array<{
+        filePath: string,
+        messages: Array<{
+            line: number,
+            column: number,
+            severity: number,
+            ruleId: string,
+            message: string,
         }>
-    } */ = cli.executeOnFiles(
-        files,
-    );
-    /* end flow-uncovered-block */
-    const {results} = report;
+    }> */ = [];
+
+    if (eslint.ESLint) {
+        const cli = new eslint.ESLint();
+        results = await cli.lintFiles(files);
+
+        // Compatibility for old ESLint API (deprecated as of ESLint v7)
+    } else if (eslint.CLIEngine) {
+        const cli = new eslint.CLIEngine();
+        const report /*: {
+            results: Array<{
+                filePath: string,
+                messages: Array<{
+                    line: number,
+                    column: number,
+                    severity: number,
+                    ruleId: string,
+                    message: string,
+                }>
+            }>
+        } */ = cli.executeOnFiles(
+            files,
+        );
+        /* end flow-uncovered-block */
+        results = report.results;
+    }
 
     const annotations = [];
     for (const result of results) {
@@ -103,7 +121,7 @@ async function run() {
         console.log('No JavaScript files changed');
         return;
     }
-    const annotations = eslintAnnotations(eslintDirectory, jsFiles);
+    const annotations = await eslintAnnotations(eslintDirectory, jsFiles);
     await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
 }
 
