@@ -32,6 +32,7 @@ const eslintAnnotations = async (
     eslintDirectory /*: string*/,
     files /*: Array<string>*/,
 ) /*: Promise<Array<Message>>*/ => {
+    console.log(`eslintDirectory = ${eslintDirectory}`);
     /* flow-uncovered-block */
     // $FlowFixMe: flow can't handle custom requires
     const eslint = require(path.resolve(eslintDirectory));
@@ -117,6 +118,7 @@ async function run() {
     const files = await gitChangedFiles(baseRef, workingDirectory || '.');
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
+    console.log(`jsFiles = ${jsFiles}`);
     if (!jsFiles.length) {
         console.log('No JavaScript files changed');
         return;
