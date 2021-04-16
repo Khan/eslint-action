@@ -16,7 +16,7 @@ require('@babel/register'); // flow-uncovered-line
 const sendReport = require('actions-utils/send-report');
 const gitChangedFiles = require('actions-utils/git-changed-files');
 const getBaseRef = require('actions-utils/get-base-ref');
-const core = require('@actions/core');
+const core = require('@actions/core'); // flow-uncovered-line
 
 const path = require('path');
 const chalk = require('chalk');
@@ -58,6 +58,7 @@ const eslintAnnotations = async (
         throw new Error(`'eslint-lib: ${eslintDirectory}' is incorrect`);
     }
 
+    /* flow-uncovered-block */
     // Log which files are being linted.
     const cwd = process.cwd();
     core.startGroup('Running eslint on the following files:');
@@ -70,6 +71,7 @@ const eslintAnnotations = async (
     core.startGroup('Results:');
     core.info(formatter.format(results));
     core.endGroup();
+    /* end flow-uncovered-block */
 
     const annotations /*: Array<Message> */ = [];
     for (const result of results) {
@@ -99,16 +101,18 @@ async function run() {
     const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
     const subtitle = process.env['INPUT_CHECK-RUN-SUBTITLE'];
     if (!eslintDirectory) {
+        /* flow-uncovered-block */
         core.error(
             `You need to have eslint installed, and pass in the directory where it is located via the variable 'eslint-lib'.`,
         );
+        /* end flow-uncovered-block */
         process.exit(1);
         return;
     }
     // const [_, __, eslintDirectory] = process.argv;
     const baseRef = getBaseRef();
     if (!baseRef) {
-        core.error(`No base ref given`);
+        core.error(`No base ref given`); // flow-uncovered-line
         process.exit(1);
         return;
     }
@@ -118,7 +122,7 @@ async function run() {
     const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
 
     if (!jsFiles.length) {
-        core.info('No JavaScript files changed');
+        core.info('No JavaScript files changed'); // flow-uncovered-line
         return;
     }
     const annotations = await eslintAnnotations(eslintDirectory, jsFiles);
