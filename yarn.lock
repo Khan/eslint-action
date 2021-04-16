@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@actions/core@^1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.7.tgz#594f8c45b213f0146e4be7eda8ae5cf4e198e5ab"
+  integrity sha512-kzLFD5BgEvq6ubcxdgPbRKGD2Qrgya/5j+wh4LZzqT915I0V3rED+MvjH6NXghbvk1MXknpNNQ3uKjXSEN00Ig==
+
 "@actions/github@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@actions/github/-/github-2.1.1.tgz#bcabedff598196d953f58ba750d5e75549a75142"

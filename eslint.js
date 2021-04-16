@@ -18,6 +18,7 @@ require('@babel/register'); // flow-uncovered-line
 const sendReport = require('actions-utils/send-report');
 const gitChangedFiles = require('actions-utils/git-changed-files');
 const getBaseRef = require('actions-utils/get-base-ref');
+const core = require('@actions/core');
 
 const path = require('path');
 const chalk = require('chalk');
@@ -73,10 +74,11 @@ const eslintAnnotations = async (
         throw new Error(`'eslint-lib: ${eslintDirectory}' is incorrect`);
     }
 
-    console.group();
-    console.log("result");
-    console.log(results);
-    console.groupEnd();
+    // We log all results since the number of annotations we can have is limited.
+    core.startGroup("results");
+    core.info(`result.length = ${results.length}`);
+    core.info(results);
+    core.endGroup();
 
     const annotations = [];
     for (const result of results) {
