@@ -33,6 +33,7 @@ const eslintAnnotations = async (
     files /*: Array<string>*/,
 ) /*: Promise<Array<Message>>*/ => {
     console.log(`eslintDirectory = ${eslintDirectory}`);
+    console.log("Hello, world!");
     /* flow-uncovered-block */
     // $FlowFixMe: flow can't handle custom requires
     const eslint = require(path.resolve(eslintDirectory));
