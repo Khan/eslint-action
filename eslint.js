@@ -76,8 +76,9 @@ const eslintAnnotations = async (
 
     // We log all results since the number of annotations we can have is limited.
     core.startGroup("results");
-    core.info(`result.length = ${results.length}`);
-    core.info(results);
+    for (const result of results) {
+        core.info(JSON.stringify(results, null, 2));
+    }
     core.endGroup();
 
     const annotations = [];
@@ -108,7 +109,7 @@ async function run() {
     const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
     const subtitle = process.env['INPUT_CHECK-RUN-SUBTITLE'];
     if (!eslintDirectory) {
-        console.error(
+        core.error(
             `You need to have eslint installed, and pass in the directory where it is located via the variable 'eslint-lib'.`,
         );
         process.exit(1);
@@ -117,7 +118,7 @@ async function run() {
     // const [_, __, eslintDirectory] = process.argv;
     const baseRef = getBaseRef();
     if (!baseRef) {
-        console.error(`No base ref given`);
+        core.error(`No base ref given`);
         process.exit(1);
         return;
     }
@@ -125,9 +126,16 @@ async function run() {
     const files = await gitChangedFiles(baseRef, workingDirectory || '.');
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
-    console.log(`jsFiles = ${jsFiles}`);
+
+    const cwd = process.cwd();
+    core.startGroup("Running eslint on the following files:");
+    for (const file of jsFiles) {
+        core.info(path.relative(cwd, file));
+    }
+    core.endGroup();
+
     if (!jsFiles.length) {
-        console.log('No JavaScript files changed');
+        core.info('No JavaScript files changed');
         return;
     }
     const annotations = await eslintAnnotations(eslintDirectory, jsFiles);
@@ -136,6 +144,6 @@ async function run() {
 
 // flow-next-uncovered-line
 run().catch(err => {
-    console.error(err); // flow-uncovered-line
+    core.error(err); // flow-uncovered-line
     process.exit(1);
 });
