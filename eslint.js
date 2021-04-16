@@ -41,11 +41,13 @@ const eslintAnnotations = async (
     let formatter /*: Formatter */;
 
     if (eslint.ESLint) {
+        core.info(`version: ${eslint.ESLint.version}`);
         const cli = new eslint.ESLint();
         formatter = cli.loadFormatter("stylish");
         results = await cli.lintFiles(files);
     } else if (eslint.CLIEngine) {
         // Handle old versions of eslint (< 7)
+        core.info(`version: ${eslint.CLIEngine.version}`);
         const cli = new eslint.CLIEngine();
         formatter = {
             format: cli.getFormatter("stylish"),
@@ -56,6 +58,9 @@ const eslintAnnotations = async (
     } else {
         throw new Error(`'eslint-lib: ${eslintDirectory}' is incorrect`);
     }
+
+    console.log("formatter");
+    console.log(formatter);
 
     // We log all results since the number of annotations we can have is limited.
     core.startGroup('Results:');
