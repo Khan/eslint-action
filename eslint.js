@@ -1,5 +1,4 @@
 // @flow
-
 /**
  * This action runs `eslint` and reports any type errors it encounters.
  *
@@ -59,7 +58,15 @@ const eslintAnnotations = async (
         throw new Error(`'eslint-lib: ${eslintDirectory}' is incorrect`);
     }
 
-    // We log all results since the number of annotations we can have is limited.
+    // Log which files are being linted.
+    const cwd = process.cwd();
+    core.startGroup('Running eslint on the following files:');
+    for (const file of files) {
+        core.info(path.relative(cwd, file));
+    }
+    core.endGroup();
+
+    // Log all results since the number of annotations we can have is limited.
     core.startGroup('Results:');
     core.info(formatter.format(results));
     core.endGroup();
@@ -109,13 +116,6 @@ async function run() {
     const files = await gitChangedFiles(baseRef, workingDirectory || '.');
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
-
-    const cwd = process.cwd();
-    core.startGroup('Running eslint on the following files:');
-    for (const file of jsFiles) {
-        core.info(path.relative(cwd, file));
-    }
-    core.endGroup();
 
     if (!jsFiles.length) {
         core.info('No JavaScript files changed');
