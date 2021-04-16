@@ -50,6 +50,7 @@ const eslintAnnotations = async (
     }> */ = [];
 
     console.log("running eslint");
+    console.log("eslint: ", eslint);
     if (eslint.ESLint) {
         console.log("eslint.ESLint");
         const cli = new eslint.ESLint();
