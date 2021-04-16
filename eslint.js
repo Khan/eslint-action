@@ -73,6 +73,11 @@ const eslintAnnotations = async (
         throw new Error(`'eslint-lib: ${eslintDirectory}' is incorrect`);
     }
 
+    console.group();
+    console.log("result");
+    console.log(results);
+    console.groupEnd();
+
     const annotations = [];
     for (const result of results) {
         const {filePath, messages} = result;
