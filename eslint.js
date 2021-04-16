@@ -72,6 +72,10 @@ const eslintAnnotations = async (
         /* end flow-uncovered-block */
         results = report.results;
     }
+    console.group();
+    console.log("results");
+    console.log(results);
+    console.groupEnd();
 
     const annotations = [];
     for (const result of results) {
