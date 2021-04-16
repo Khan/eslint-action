@@ -32,8 +32,6 @@ const eslintAnnotations = async (
     eslintDirectory /*: string*/,
     files /*: Array<string>*/,
 ) /*: Promise<Array<Message>>*/ => {
-    console.log(`eslintDirectory = ${eslintDirectory}`);
-    console.log("Hello, world!");
     /* flow-uncovered-block */
     // $FlowFixMe: flow can't handle custom requires
     const eslint = require(path.resolve(eslintDirectory));
@@ -49,16 +47,11 @@ const eslintAnnotations = async (
         }>
     }> */ = [];
 
-    console.log("running eslint");
-    console.log("eslint: ", eslint);
     if (eslint.ESLint) {
-        console.log("eslint.ESLint");
         const cli = new eslint.ESLint();
         results = await cli.lintFiles(files);
-
-        // Compatibility for old ESLint API (deprecated as of ESLint v7)
     } else if (eslint.CLIEngine) {
-        console.log("eslint.CLIEngine");
+        // Handle old versions of eslint (< 7)
         const cli = new eslint.CLIEngine();
         const report /*: {
             results: Array<{
@@ -76,9 +69,9 @@ const eslintAnnotations = async (
         );
         /* end flow-uncovered-block */
         results = report.results;
+    } else {
+        throw new Error(`'eslint-lib: ${eslintDirectory}' is incorrect`);
     }
-    console.log("results");
-    console.log(results);
 
     const annotations = [];
     for (const result of results) {
