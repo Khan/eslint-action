@@ -42,14 +42,14 @@ const eslintAnnotations = async (
     if (eslint.ESLint) {
         core.info(`version: ${eslint.ESLint.version}`);
         const cli = new eslint.ESLint();
-        formatter = await cli.loadFormatter("stylish");
+        formatter = await cli.loadFormatter('stylish');
         results = await cli.lintFiles(files);
     } else if (eslint.CLIEngine) {
         // Handle old versions of eslint (< 7)
         core.info(`version: ${eslint.CLIEngine.version}`);
         const cli = new eslint.CLIEngine();
         formatter = {
-            format: cli.getFormatter("stylish"),
+            format: cli.getFormatter('stylish'),
         };
         const report /*: LintReport */ = cli.executeOnFiles(files);
         /* end flow-uncovered-block */
