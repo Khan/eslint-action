@@ -48,12 +48,15 @@ const eslintAnnotations = async (
         }>
     }> */ = [];
 
+    console.log("running eslint");
     if (eslint.ESLint) {
+        console.log("eslint.ESLint");
         const cli = new eslint.ESLint();
         results = await cli.lintFiles(files);
 
         // Compatibility for old ESLint API (deprecated as of ESLint v7)
     } else if (eslint.CLIEngine) {
+        console.log("eslint.CLIEngine");
         const cli = new eslint.CLIEngine();
         const report /*: {
             results: Array<{
@@ -72,10 +75,8 @@ const eslintAnnotations = async (
         /* end flow-uncovered-block */
         results = report.results;
     }
-    console.group();
     console.log("results");
     console.log(results);
-    console.groupEnd();
 
     const annotations = [];
     for (const result of results) {
