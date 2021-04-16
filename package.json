@@ -15,6 +15,7 @@
     "devDependencies": {
         "@actions/github": "^2.1.1",
         "@babel/core": "^7.9.6",
+        "@babel/preset-flow": "^7.13.13",
         "@babel/register": "^7.9.0",
         "@zeit/ncc": "^0.22.1",
         "actions-utils": "Khan/actions-utils#v1.2.4",

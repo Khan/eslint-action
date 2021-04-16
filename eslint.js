@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // @flow
 
 /**
@@ -27,47 +26,29 @@ chalk.enabled = !process.env.GITHUB_TOKEN;
 
 /*::
 import type {Message} from 'actions-utils/send-report';
+import type {Formatter, LintReport, LintResult} from './types.js';
 */
 
 const eslintAnnotations = async (
-    eslintDirectory /*: string*/,
-    files /*: Array<string>*/,
-) /*: Promise<Array<Message>>*/ => {
+    eslintDirectory /*: string */,
+    files /*: Array<string> */,
+) /*: Promise<Array<Message>> */ => {
     /* flow-uncovered-block */
     // $FlowFixMe: flow can't handle custom requires
     const eslint = require(path.resolve(eslintDirectory));
 
-    let results /*: Array<{
-        filePath: string,
-        messages: Array<{
-            line: number,
-            column: number,
-            severity: number,
-            ruleId: string,
-            message: string,
-        }>
-    }> */ = [];
+    let results /*: Array<LintResult> */ = [];
+    let formatter /*: Formatter */;
 
     if (eslint.ESLint) {
         const cli = new eslint.ESLint();
+        formatter = cli.loadFormatter("stylish")
         results = await cli.lintFiles(files);
     } else if (eslint.CLIEngine) {
         // Handle old versions of eslint (< 7)
         const cli = new eslint.CLIEngine();
-        const report /*: {
-            results: Array<{
-                filePath: string,
-                messages: Array<{
-                    line: number,
-                    column: number,
-                    severity: number,
-                    ruleId: string,
-                    message: string,
-                }>
-            }>
-        } */ = cli.executeOnFiles(
-            files,
-        );
+        formatter = cli.getFormatter("stylish");
+        const report /*: LintReport */ = cli.executeOnFiles(files);
         /* end flow-uncovered-block */
         results = report.results;
     } else {
@@ -75,13 +56,11 @@ const eslintAnnotations = async (
     }
 
     // We log all results since the number of annotations we can have is limited.
-    core.startGroup("results");
-    for (const result of results) {
-        core.info(JSON.stringify(results, null, 2));
-    }
+    core.startGroup('Results:');
+    core.info(formatter.format(results));
     core.endGroup();
 
-    const annotations = [];
+    const annotations /*: Array<Message> */ = [];
     for (const result of results) {
         const {filePath, messages} = result;
         for (const msg of messages) {
@@ -128,7 +107,7 @@ async function run() {
     const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
 
     const cwd = process.cwd();
-    core.startGroup("Running eslint on the following files:");
+    core.startGroup('Running eslint on the following files:');
     for (const file of jsFiles) {
         core.info(path.relative(cwd, file));
     }
