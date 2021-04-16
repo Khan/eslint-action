@@ -1,6 +1,4 @@
-#!/usr/bin/env node
 // @flow
-
 /**
  * This action runs `eslint` and reports any type errors it encounters.
  *
@@ -18,6 +16,7 @@ require('@babel/register'); // flow-uncovered-line
 const sendReport = require('actions-utils/send-report');
 const gitChangedFiles = require('actions-utils/git-changed-files');
 const getBaseRef = require('actions-utils/get-base-ref');
+const core = require('@actions/core');
 
 const path = require('path');
 const chalk = require('chalk');
@@ -26,53 +25,53 @@ chalk.enabled = !process.env.GITHUB_TOKEN;
 
 /*::
 import type {Message} from 'actions-utils/send-report';
+import type {Formatter, LintReport, LintResult} from './types.js';
 */
 
 const eslintAnnotations = async (
-    eslintDirectory /*: string*/,
-    files /*: Array<string>*/,
-) /*: Promise<Array<Message>>*/ => {
+    eslintDirectory /*: string */,
+    files /*: Array<string> */,
+) /*: Promise<Array<Message>> */ => {
     /* flow-uncovered-block */
     // $FlowFixMe: flow can't handle custom requires
     const eslint = require(path.resolve(eslintDirectory));
 
-    let results /*: Array<{
-        filePath: string,
-        messages: Array<{
-            line: number,
-            column: number,
-            severity: number,
-            ruleId: string,
-            message: string,
-        }>
-    }> */ = [];
+    let results /*: Array<LintResult> */ = [];
+    let formatter /*: Formatter */;
 
     if (eslint.ESLint) {
+        core.info(`version: ${eslint.ESLint.version}`);
         const cli = new eslint.ESLint();
+        formatter = await cli.loadFormatter("stylish");
         results = await cli.lintFiles(files);
-
-        // Compatibility for old ESLint API (deprecated as of ESLint v7)
     } else if (eslint.CLIEngine) {
+        // Handle old versions of eslint (< 7)
+        core.info(`version: ${eslint.CLIEngine.version}`);
         const cli = new eslint.CLIEngine();
-        const report /*: {
-            results: Array<{
-                filePath: string,
-                messages: Array<{
-                    line: number,
-                    column: number,
-                    severity: number,
-                    ruleId: string,
-                    message: string,
-                }>
-            }>
-        } */ = cli.executeOnFiles(
-            files,
-        );
+        formatter = {
+            format: cli.getFormatter("stylish"),
+        };
+        const report /*: LintReport */ = cli.executeOnFiles(files);
         /* end flow-uncovered-block */
         results = report.results;
+    } else {
+        throw new Error(`'eslint-lib: ${eslintDirectory}' is incorrect`);
     }
 
-    const annotations = [];
+    // Log which files are being linted.
+    const cwd = process.cwd();
+    core.startGroup('Running eslint on the following files:');
+    for (const file of files) {
+        core.info(path.relative(cwd, file));
+    }
+    core.endGroup();
+
+    // Log all results since the number of annotations we can have is limited.
+    core.startGroup('Results:');
+    core.info(formatter.format(results));
+    core.endGroup();
+
+    const annotations /*: Array<Message> */ = [];
     for (const result of results) {
         const {filePath, messages} = result;
         for (const msg of messages) {
@@ -100,7 +99,7 @@ async function run() {
     const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
     const subtitle = process.env['INPUT_CHECK-RUN-SUBTITLE'];
     if (!eslintDirectory) {
-        console.error(
+        core.error(
             `You need to have eslint installed, and pass in the directory where it is located via the variable 'eslint-lib'.`,
         );
         process.exit(1);
@@ -109,7 +108,7 @@ async function run() {
     // const [_, __, eslintDirectory] = process.argv;
     const baseRef = getBaseRef();
     if (!baseRef) {
-        console.error(`No base ref given`);
+        core.error(`No base ref given`);
         process.exit(1);
         return;
     }
@@ -117,8 +116,9 @@ async function run() {
     const files = await gitChangedFiles(baseRef, workingDirectory || '.');
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
+
     if (!jsFiles.length) {
-        console.log('No JavaScript files changed');
+        core.info('No JavaScript files changed');
         return;
     }
     const annotations = await eslintAnnotations(eslintDirectory, jsFiles);
@@ -127,6 +127,6 @@ async function run() {
 
 // flow-next-uncovered-line
 run().catch(err => {
-    console.error(err); // flow-uncovered-line
+    core.error(err); // flow-uncovered-line
     process.exit(1);
 });
