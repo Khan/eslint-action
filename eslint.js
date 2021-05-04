@@ -29,6 +29,7 @@ import type {Formatter, LintReport, LintResult} from './types.js';
 */
 
 const eslintAnnotations = async (
+    baseDirectory /*: string */,
     eslintDirectory /*: string */,
     files /*: Array<string> */,
 ) /*: Promise<Array<Message>> */ => {
@@ -41,13 +42,17 @@ const eslintAnnotations = async (
 
     if (eslint.ESLint) {
         core.info(`version: ${eslint.ESLint.version}`);
-        const cli = new eslint.ESLint();
+        const cli = new eslint.ESLint({
+            resolvePluginsRelativeTo: baseDirectory,
+        });
         formatter = await cli.loadFormatter('stylish');
         results = await cli.lintFiles(files);
     } else if (eslint.CLIEngine) {
         // Handle old versions of eslint (< 7)
         core.info(`version: ${eslint.CLIEngine.version}`);
-        const cli = new eslint.CLIEngine();
+        const cli = new eslint.CLIEngine({
+            resolvePluginsRelativeTo: baseDirectory,
+        });
         formatter = {
             format: cli.getFormatter('stylish'),
         };
@@ -99,6 +104,9 @@ const eslintAnnotations = async (
 async function run() {
     const eslintDirectory = process.env['INPUT_ESLINT-LIB'];
     const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
+    if (workingDirectory != null && workingDirectory.trim() !== '') {
+        process.chdir(workingDirectory);
+    }
     const subtitle = process.env['INPUT_CHECK-RUN-SUBTITLE'];
     if (!eslintDirectory) {
         /* flow-uncovered-block */
@@ -109,7 +117,6 @@ async function run() {
         process.exit(1);
         return;
     }
-    // const [_, __, eslintDirectory] = process.argv;
     const baseRef = getBaseRef();
     if (!baseRef) {
         core.error(`No base ref given`); // flow-uncovered-line
@@ -117,7 +124,7 @@ async function run() {
         return;
     }
 
-    const files = await gitChangedFiles(baseRef, workingDirectory || '.');
+    const files = await gitChangedFiles(baseRef, '.');
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
 
@@ -125,7 +132,7 @@ async function run() {
         core.info('No JavaScript files changed'); // flow-uncovered-line
         return;
     }
-    const annotations = await eslintAnnotations(eslintDirectory, jsFiles);
+    const annotations = await eslintAnnotations(workingDirectory || '.', eslintDirectory, jsFiles);
     await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
 }
 
