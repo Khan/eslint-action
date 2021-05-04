@@ -104,6 +104,9 @@ const eslintAnnotations = async (
 async function run() {
     const eslintDirectory = process.env['INPUT_ESLINT-LIB'];
     const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
+    if (workingDirectory != null && workingDirectory.trim() !== '') {
+        process.chdir(workingDirectory);
+    }
     const subtitle = process.env['INPUT_CHECK-RUN-SUBTITLE'];
     if (!eslintDirectory) {
         /* flow-uncovered-block */
@@ -114,7 +117,6 @@ async function run() {
         process.exit(1);
         return;
     }
-    // const [_, __, eslintDirectory] = process.argv;
     const baseRef = getBaseRef();
     if (!baseRef) {
         core.error(`No base ref given`); // flow-uncovered-line
@@ -122,7 +124,7 @@ async function run() {
         return;
     }
 
-    const files = await gitChangedFiles(baseRef, workingDirectory || '.');
+    const files = await gitChangedFiles(baseRef, '.');
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
 
