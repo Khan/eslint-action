@@ -43,14 +43,17 @@ const validateBaseRef = (baseRef /*:string*/) => {
 
 const getBaseRef = (head /*:string*/ = 'HEAD') => {
     const { GITHUB_BASE_REF } = process.env['INPUT_BASE-REF'];
-    const { GITHUB_REF } = process.env;
+    const { GITHUB_HEAD_REF } = process.env;
+    const remote = `refs/remotes/origin/${GITHUB_HEAD_REF}`;
+
+    console.log(`GHR: ${remote}`);
     console.log(`GBR: ${GITHUB_BASE_REF}`);
 
-    if (GITHUB_BASE_REF && validateBaseRef(GITHUB_BASE_REF)) {
+    if (false) {//GITHUB_BASE_REF && validateBaseRef(GITHUB_BASE_REF)) {
         return validateBaseRef(GITHUB_BASE_REF);
     } else {
         let upstream = execSync(
-            `git rev-parse --abbrev-ref '${GITHUB_REF}@{upstream}'`,
+            `git rev-parse --abbrev-ref '${remote}@{upstream}'`,
             { encoding: 'utf8' },
         );
         upstream = upstream.trim();
