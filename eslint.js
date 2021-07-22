@@ -43,7 +43,7 @@ const validateBaseRef = (baseRef /*:string*/) => {
 
 const getBaseRef = (head /*:string*/ = 'HEAD') => {
     const { GITHUB_BASE_REF } = process.env;
-    console.error(`GBR: ${GITHUB_BASE_REF}`);
+    console.log(`GBR: ${GITHUB_BASE_REF}`);
 
     if (GITHUB_BASE_REF && validateBaseRef(GITHUB_BASE_REF)) {
         return GITHUB_BASE_REF;//validateBaseRef(GITHUB_BASE_REF);
@@ -54,7 +54,7 @@ const getBaseRef = (head /*:string*/ = 'HEAD') => {
         );
         upstream = upstream.trim();
 
-        console.error(`upstream: ${upstream}`);
+        console.log(`upstream: ${upstream}`);
         // if upstream is local and not empty, use that.
         if (upstream && !upstream.trim().startsWith('origin/')) {
             return `refs/heads/${upstream}`;
