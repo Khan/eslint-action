@@ -46,7 +46,7 @@ const getBaseRef = (head /*:string*/ = 'HEAD') => {
     console.log(`GBR: ${GITHUB_BASE_REF}`);
 
     if (GITHUB_BASE_REF && validateBaseRef(GITHUB_BASE_REF)) {
-        return GITHUB_BASE_REF;//validateBaseRef(GITHUB_BASE_REF);
+        return validateBaseRef(GITHUB_BASE_REF);
     } else {
         let upstream = execSync(
             `git rev-parse --abbrev-ref '${head}@{upstream}'`,
