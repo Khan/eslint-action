@@ -143,7 +143,7 @@ const eslintAnnotations = (
                 start: {line, column},
                 end: {line, column},
                 annotationLevel: severity === 1 ? 'warning' : 'failure',
-                message: `${chalk.red(`[${ruleId}]`)} ${message}`,
+                message: `TESTING`,
             });
         }
     }
