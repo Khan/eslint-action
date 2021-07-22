@@ -42,7 +42,7 @@ const validateBaseRef = (baseRef /*:string*/) => {
 };
 
 const getBaseRef = (head /*:string*/ = 'HEAD') => {
-    const { GITHUB_BASE_REF } = process.env['INPUT_BASE-REF'];
+    const  GITHUB_BASE_REF  = process.env['INPUT_BASE-REF'];
     const { GITHUB_HEAD_REF } = process.env;
     const remote = `refs/remotes/origin/${GITHUB_HEAD_REF}`;
 
