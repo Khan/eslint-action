@@ -13,6 +13,9 @@ inputs:
   check-run-subtitle:
     required: false
     description: 'A subtitle to add to the check run when annotations are passed back to avoid overwriting each other'
+  base-ref:
+    required: true
+    description: 'The base ref of the pull-request'
 branding:
   icon: check-circle
   color: red

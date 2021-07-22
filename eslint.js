@@ -42,7 +42,7 @@ const validateBaseRef = (baseRef /*:string*/) => {
 };
 
 const getBaseRef = (head /*:string*/ = 'HEAD') => {
-    const { GITHUB_BASE_REF } = process.env;
+    const { GITHUB_BASE_REF } = process.env['INPUT_BASE-REF'];
     const { GITHUB_REF } = process.env;
     console.log(`GBR: ${GITHUB_BASE_REF}`);
 
