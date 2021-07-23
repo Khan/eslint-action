@@ -17,7 +17,7 @@
         "@babel/core": "^7.9.6",
         "@babel/register": "^7.9.0",
         "@zeit/ncc": "^0.22.1",
-        "actions-utils": "Khan/actions-utils#FEI-3738",
+        "actions-utils": "Khan/actions-utils#35a4ac8366238b6acd95431db8312f017a69bccc",
         "actions-workflow-tools": "Khan/actions-workflow-tools#v1.2.4",
         "babel-eslint": "^10.1.0",
         "chalk": "^2.4.2",
