@@ -89,7 +89,7 @@ async function run() {
         return;
     }
     // const [_, __, eslintDirectory] = process.argv;
-    const baseRef = getBaseRef();
+    const baseRef = getBaseRef('HEAD', true);
     if (!baseRef) {
         console.error(`No base ref given`);
         process.exit(1);
