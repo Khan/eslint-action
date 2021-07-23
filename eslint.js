@@ -17,8 +17,8 @@ require('@babel/register'); // flow-uncovered-line
 
 const sendReport = require('actions-utils/send-report');
 const gitChangedFiles = require('actions-utils/git-changed-files');
-const getBaseRef = require('actions-utils/get-base-ref');
-const {cannedGithubErrorMessage} = require("actions-utils/get-base-ref");
+//const getBaseRef = require('actions-utils/get-base-ref');
+const {getBaseRef, cannedGithubErrorMessage} = require("actions-utils/get-base-ref");
 
 const path = require('path');
 const chalk = require('chalk');
