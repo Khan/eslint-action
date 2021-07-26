@@ -1,6 +1,4 @@
-#!/usr/bin/env node
 // @flow
-
 /**
  * This action runs `eslint` and reports any type errors it encounters.
  *
@@ -19,6 +17,7 @@ const sendReport = require('actions-utils/send-report');
 const gitChangedFiles = require('actions-utils/git-changed-files');
 const getBaseRef = require('actions-utils/get-base-ref');
 const {cannedGithubErrorMessage} = require('actions-utils/get-base-ref');
+const core = require('@actions/core'); // flow-uncovered-line
 
 const path = require('path');
 const chalk = require('chalk');
@@ -27,35 +26,60 @@ chalk.enabled = !process.env.GITHUB_TOKEN;
 
 /*::
 import type {Message} from 'actions-utils/send-report';
+import type {Formatter, LintReport, LintResult} from './types.js';
 */
 
-const eslintAnnotations = (
-    eslintDirectory /*: string*/,
-    files /*: Array<string>*/,
-) /*: Array<Message>*/ => {
+const eslintAnnotations = async (
+    baseDirectory /*: string */,
+    eslintDirectory /*: string */,
+    files /*: Array<string> */,
+) /*: Promise<Array<Message>> */ => {
     /* flow-uncovered-block */
     // $FlowFixMe: flow can't handle custom requires
     const eslint = require(path.resolve(eslintDirectory));
 
-    const cli = new eslint.CLIEngine();
-    const report /*: {
-        results: Array<{
-            filePath: string,
-            messages: Array<{
-                line: number,
-                column: number,
-                severity: number,
-                ruleId: string,
-                message: string,
-            }>
-        }>
-    } */ = cli.executeOnFiles(
-        files,
-    );
-    /* end flow-uncovered-block */
-    const {results} = report;
+    let results /*: Array<LintResult> */ = [];
+    let formatter /*: Formatter */;
 
-    const annotations = [];
+    if (eslint.ESLint) {
+        core.info(`version: ${eslint.ESLint.version}`);
+        const cli = new eslint.ESLint({
+            resolvePluginsRelativeTo: baseDirectory,
+        });
+        formatter = await cli.loadFormatter('stylish');
+        results = await cli.lintFiles(files);
+    } else if (eslint.CLIEngine) {
+        // Handle old versions of eslint (< 7)
+        core.info(`version: ${eslint.CLIEngine.version}`);
+        const cli = new eslint.CLIEngine({
+            resolvePluginsRelativeTo: baseDirectory,
+        });
+        formatter = {
+            format: cli.getFormatter('stylish'),
+        };
+        const report /*: LintReport */ = cli.executeOnFiles(files);
+        /* end flow-uncovered-block */
+        results = report.results;
+    } else {
+        throw new Error(`'eslint-lib: ${eslintDirectory}' is incorrect`);
+    }
+
+    /* flow-uncovered-block */
+    // Log which files are being linted.
+    const cwd = process.cwd();
+    core.startGroup('Running eslint on the following files:');
+    for (const file of files) {
+        core.info(path.relative(cwd, file));
+    }
+    core.endGroup();
+
+    // Log all results since the number of annotations we can have is limited.
+    core.startGroup('Results:');
+    core.info(formatter.format(results));
+    core.endGroup();
+    /* end flow-uncovered-block */
+
+    const annotations /*: Array<Message> */ = [];
     for (const result of results) {
         const {filePath, messages} = result;
         for (const msg of messages) {
@@ -81,35 +105,40 @@ const eslintAnnotations = (
 async function run() {
     const eslintDirectory = process.env['INPUT_ESLINT-LIB'];
     const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
+    if (workingDirectory != null && workingDirectory.trim() !== '') {
+        process.chdir(workingDirectory);
+    }
     const subtitle = process.env['INPUT_CHECK-RUN-SUBTITLE'];
     if (!eslintDirectory) {
-        console.error(
+        /* flow-uncovered-block */
+        core.error(
             `You need to have eslint installed, and pass in the directory where it is located via the variable 'eslint-lib'.`,
         );
+        /* end flow-uncovered-block */
         process.exit(1);
         return;
     }
-    // const [_, __, eslintDirectory] = process.argv;
     const baseRef = getBaseRef();
     if (!baseRef) {
-        console.error(`No base ref given.`);
-        console.error(cannedGithubErrorMessage());
+        core.error(cannedGithubErrorMessage());
         process.exit(1);
         return;
     }
 
-    const files = await gitChangedFiles(baseRef, workingDirectory || '.');
-    const jsFiles = files.filter(file => file.endsWith('.js'));
+    const files = await gitChangedFiles(baseRef, '.');
+    const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
+    const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
+
     if (!jsFiles.length) {
-        console.log('No .js files changed');
+        core.info('No JavaScript files changed'); // flow-uncovered-line
         return;
     }
-    const annotations = eslintAnnotations(eslintDirectory, jsFiles);
+    const annotations = await eslintAnnotations(workingDirectory || '.', eslintDirectory, jsFiles);
     await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
 }
 
 // flow-next-uncovered-line
 run().catch(err => {
-    console.error(err); // flow-uncovered-line
+    core.error(err); // flow-uncovered-line
     process.exit(1);
 });
