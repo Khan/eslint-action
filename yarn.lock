@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@actions/core@^1.2.7":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.4.0.tgz#cf2e6ee317e314b03886adfeb20e448d50d6e524"
+  integrity sha512-CGx2ilGq5i7zSLgiiGUtBCxhRRxibJYU6Fim0Q1Wg2aQL2LTnF27zbqZOrxfvFQ55eSBW0L8uVStgtKMpa0Qlg==
+
 "@actions/github@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@actions/github/-/github-2.1.1.tgz#bcabedff598196d953f58ba750d5e75549a75142"
@@ -1168,9 +1173,9 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.2.0.tgz#17ea7e40d7c8640ff54a694c889c26f31704effe"
   integrity sha512-apwXVmYVpQ34m/i71vrApRrRKCWQnZZF1+npOD0WV5xZFfwWOmKGQ2RWlfdy9vWITsenisM8M0Qeq8agcFHNiQ==
 
-actions-utils@Khan/actions-utils#78892bab1d3c794d6f0fb6a74cbabd8b3e118789:
+actions-utils@Khan/actions-utils#35a4ac8366238b6acd95431db8312f017a69bccc:
   version "1.2.4"
-  resolved "https://codeload.github.com/Khan/actions-utils/tar.gz/78892bab1d3c794d6f0fb6a74cbabd8b3e118789"
+  resolved "https://codeload.github.com/Khan/actions-utils/tar.gz/35a4ac8366238b6acd95431db8312f017a69bccc"
   dependencies:
     "@actions/github" "^2.1.1"
     chalk "^2.4.2"
