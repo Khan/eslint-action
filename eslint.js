@@ -16,6 +16,7 @@ require('@babel/register'); // flow-uncovered-line
 const sendReport = require('actions-utils/send-report');
 const gitChangedFiles = require('actions-utils/git-changed-files');
 const getBaseRef = require('actions-utils/get-base-ref');
+const {cannedGithubErrorMessage} = require('actions-utils/get-base-ref');
 const core = require('@actions/core'); // flow-uncovered-line
 
 const path = require('path');
@@ -119,7 +120,7 @@ async function run() {
     }
     const baseRef = getBaseRef();
     if (!baseRef) {
-        core.error(`No base ref given`); // flow-uncovered-line
+        core.error(cannedGithubErrorMessage()); // flow-uncovered-line
         process.exit(1);
         return;
     }
