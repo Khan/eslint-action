@@ -120,7 +120,7 @@ async function run() {
     }
     const baseRef = getBaseRef();
     if (!baseRef) {
-        core.error(cannedGithubErrorMessage());
+        core.error(cannedGithubErrorMessage()); // flow-uncovered-line
         process.exit(1);
         return;
     }
