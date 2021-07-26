@@ -3,9 +3,9 @@
 
 
 "@actions/core@^1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.7.tgz#594f8c45b213f0146e4be7eda8ae5cf4e198e5ab"
-  integrity sha512-kzLFD5BgEvq6ubcxdgPbRKGD2Qrgya/5j+wh4LZzqT915I0V3rED+MvjH6NXghbvk1MXknpNNQ3uKjXSEN00Ig==
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.4.0.tgz#cf2e6ee317e314b03886adfeb20e448d50d6e524"
+  integrity sha512-CGx2ilGq5i7zSLgiiGUtBCxhRRxibJYU6Fim0Q1Wg2aQL2LTnF27zbqZOrxfvFQ55eSBW0L8uVStgtKMpa0Qlg==
 
 "@actions/github@^2.1.1":
   version "2.1.1"
@@ -1168,29 +1168,20 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.2.0.tgz#17ea7e40d7c8640ff54a694c889c26f31704effe"
   integrity sha512-apwXVmYVpQ34m/i71vrApRrRKCWQnZZF1+npOD0WV5xZFfwWOmKGQ2RWlfdy9vWITsenisM8M0Qeq8agcFHNiQ==
 
-actions-utils@Khan/actions-utils#v1.2.3:
-  version "1.2.3"
-  resolved "https://codeload.github.com/Khan/actions-utils/tar.gz/c546cd2cdd5751c2fcccea1769cd23f8ac85c6c4"
+"actions-utils@git+https://git@github.com/Khan/actions-utils#v1.2.5":
+  version "1.2.4"
+  resolved "git+https://git@github.com/Khan/actions-utils#2fb7c74158e8f96f7f891c0d58f5c5feb08e8615"
   dependencies:
     "@actions/github" "^2.1.1"
     chalk "^2.4.2"
     cli-highlight "^2.1.4"
     minimatch "^3.0.4"
 
-actions-utils@Khan/actions-utils#v1.2.4:
+"actions-workflow-tools@git+https://git@github.com/Khan/actions-workflow-tools#v1.2.5":
   version "1.2.4"
-  resolved "https://codeload.github.com/Khan/actions-utils/tar.gz/51350f7f85b11649585b59db8e7c7314f83beefb"
+  resolved "git+https://git@github.com/Khan/actions-workflow-tools#a3e71a5eace39ef189da8d7c8c70afe96aefc2fa"
   dependencies:
-    "@actions/github" "^2.1.1"
-    chalk "^2.4.2"
-    cli-highlight "^2.1.4"
-    minimatch "^3.0.4"
-
-actions-workflow-tools@Khan/actions-workflow-tools#v1.2.4:
-  version "1.2.4"
-  resolved "https://codeload.github.com/Khan/actions-workflow-tools/tar.gz/8025c81da09417833e0ce9ed67cf18a33a9c295a"
-  dependencies:
-    actions-utils Khan/actions-utils#v1.2.3
+    actions-utils "git+https://git@github.com/Khan/actions-utils#v1.2.5"
     chalk "^2.4.2"
     download-git-repo "^3.0.2"
     js-yaml "^3.13.1"
