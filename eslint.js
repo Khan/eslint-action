@@ -102,9 +102,16 @@ const eslintAnnotations = async (
     return annotations;
 };
 
+const parseList = (text) /*: Array<string>*/ => {
+    if (!text || !text.length) {
+        return [];
+    }
+    return text.split(',');
+};
 async function run() {
     const eslintDirectory = process.env['INPUT_ESLINT-LIB'];
     const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
+    const runAllIfChanged = parseList(process.env['INPUT_RUN-ALL-IF-CHANGED']);
     if (workingDirectory != null && workingDirectory.trim() !== '') {
         process.chdir(workingDirectory);
     }
@@ -126,8 +133,12 @@ async function run() {
     }
 
     const files = await gitChangedFiles(baseRef, '.');
+    const shouldRunAll = runAllIfChanged.some(name => files.some(file => file === name));
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
-    const jsFiles = files.filter(file => validExt.includes(path.extname(file)));
+    const jsFiles = shouldRunAll
+        ? // Use globs to get all files
+          validExt.map(ext => `**/*${ext}`)
+        : files.filter(file => validExt.includes(path.extname(file)));
 
     if (!jsFiles.length) {
         core.info('No JavaScript files changed'); // flow-uncovered-line
