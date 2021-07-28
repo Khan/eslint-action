@@ -139,8 +139,8 @@ async function run() {
     );
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = shouldRunAll
-        ? // Use globs to get all files
-          validExt.map(ext => `**/*${ext}`)
+        ? // Get all files
+          ['.']
         : files.filter(file => validExt.includes(path.extname(file)));
 
     if (!jsFiles.length) {
