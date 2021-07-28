@@ -132,8 +132,11 @@ async function run() {
         return;
     }
 
+    const current = process.pwd();
     const files = await gitChangedFiles(baseRef, '.');
-    const shouldRunAll = runAllIfChanged.some(name => files.some(file => file === name));
+    const shouldRunAll = runAllIfChanged.some(name =>
+        files.some(file => path.relative(current, file) === name),
+    );
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = shouldRunAll
         ? // Use globs to get all files
@@ -141,8 +144,8 @@ async function run() {
         : files.filter(file => validExt.includes(path.extname(file)));
 
     if (!jsFiles.length) {
-        core.info(files); // flow-uncovered-line
         core.info('No JavaScript files changed'); // flow-uncovered-line
+        core.info(`Changed files:\n - ${files.join('\n - ')}`); // flow-uncovered-line
         return;
     }
     const annotations = await eslintAnnotations(workingDirectory || '.', eslintDirectory, jsFiles);
