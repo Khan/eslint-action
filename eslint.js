@@ -141,6 +141,7 @@ async function run() {
         : files.filter(file => validExt.includes(path.extname(file)));
 
     if (!jsFiles.length) {
+        core.info(files); // flow-uncovered-line
         core.info('No JavaScript files changed'); // flow-uncovered-line
         return;
     }
