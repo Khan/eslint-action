@@ -13,6 +13,9 @@ inputs:
   check-run-subtitle:
     required: false
     description: 'A subtitle to add to the check run when annotations are passed back to avoid overwriting each other'
+  run-all-if-changed:
+    required: false
+    description: 'Comma-separated list of files which, if changed, trigger a re-check of all files'
 branding:
   icon: check-circle
   color: red
