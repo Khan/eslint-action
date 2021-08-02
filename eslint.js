@@ -132,7 +132,7 @@ async function run() {
         return;
     }
 
-    const current = process.cwd();
+    const current = path.resolve(workingDirectory || '');
     const files = await gitChangedFiles(baseRef, '.');
     const shouldRunAll = runAllIfChanged.some(name =>
         files.some(file => path.relative(current, file) === name),
