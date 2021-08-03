@@ -9,6 +9,24 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         name: '▶️ Setup checkout: get the repo'
+      - name: "\U0001F53D Start setup [changed-files]"
+        run: echo "Setting something up"
+      - name: Get All Changed Files
+        uses: jitterbit/get-changed-files@v1
+        id: changed
+        with:
+          format: json
+      - uses: actions/github-script@0.3.0
+        with:
+          script: >
+            const core = require('@actions/core')
+
+            core.exportVariable('ALL_CHANGED_FILES', JSON.stringify(${{
+            steps.changed.outputs.added_modified }}))
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - name: "\U0001F53C Finished setup [changed-files]"
+        run: echo "Finished setting it up"
       - run: yarn
         name: '▶️ Setup yarn: '
       - name: Run eslint

@@ -7,3 +7,18 @@ setup:
     setup: checkout
     steps:
       - run: yarn
+  changed-files:
+    steps:
+      - name: Get All Changed Files
+        uses: jitterbit/get-changed-files@v1
+        id: changed
+        with:
+          format: 'json'
+
+      - uses: actions/github-script@0.3.0
+        with:
+          script: |
+            const core = require('@actions/core')
+            core.exportVariable('ALL_CHANGED_FILES', JSON.stringify(${{ steps.changed.outputs.added_modified }}))
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
