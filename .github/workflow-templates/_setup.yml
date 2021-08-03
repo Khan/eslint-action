@@ -15,6 +15,9 @@ setup:
         with:
           format: 'json'
 
+      - name: Debug
+        run: echo '${{ steps.changed.outputs.added_modified }}'
+
       - uses: actions/github-script@0.3.0
         with:
           script: |
