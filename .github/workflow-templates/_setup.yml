@@ -1,8 +1,12 @@
 
 setup:
   checkout:
-  - uses: actions/checkout@v1
+  - uses: actions/checkout@v2
     name: get the repo
+  - uses: actions/checkout@v2
+    name: get the base ref
+    with:
+      ref: '${{ github.base_ref }}'
   yarn:
     setup: checkout
     steps:
@@ -18,4 +22,4 @@ setup:
 
       - uses: allenevans/set-env@v2.0.0
         with:
-          ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'
+          ALL_CHANGED_FILES_DISABLED: '${{ steps.changed.outputs.added_modified }}'

@@ -7,8 +7,16 @@ jobs:
   lint_and_unit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-        name: '▶️ Setup checkout: get the repo'
+      - name: "\U0001F53D Start setup [checkout]"
+        run: echo "Setting something up"
+      - uses: actions/checkout@v2
+        name: get the repo
+      - uses: actions/checkout@v2
+        name: get the repo
+        with:
+          ref: '${{ github.base_ref }}'
+      - name: "\U0001F53C Finished setup [checkout]"
+        run: echo "Finished setting it up"
       - name: "\U0001F53D Start setup [changed-files]"
         run: echo "Setting something up"
       - name: Get All Changed Files
@@ -19,7 +27,7 @@ jobs:
           absolute: true
       - uses: allenevans/set-env@v2.0.0
         with:
-          ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'
+          ALL_CHANGED_FILES_DISABLED: '${{ steps.changed.outputs.added_modified }}'
       - name: "\U0001F53C Finished setup [changed-files]"
         run: echo "Finished setting it up"
       - run: yarn
