@@ -14,14 +14,16 @@ setup:
         id: changed
         with:
           format: 'json'
-
-      - name: Debug
-        run: echo '${{ steps.changed.outputs.added_modified }}'
-
-      - uses: actions/github-script@0.3.0
+      
+      - name: set environment variables
+        uses: allenevans/set-env@v2.0.0
         with:
-          script: |
-            const core = require('@actions/core')
-            core.exportVariable('ALL_CHANGED_FILES', JSON.stringify(${{ steps.changed.outputs.added_modified }}))
+          ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'
+          ALL_CHANGED_FILES_BASE: '${{ github.workspace }}'
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Debug
+        run: |
+          echo The files that were changed: ${ALL_CHANGED_FILES}
+          echo The base directory for those files: ${ALL_CHANGED_FILES_BASE}
