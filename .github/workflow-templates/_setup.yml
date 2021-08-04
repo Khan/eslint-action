@@ -2,24 +2,24 @@
 setup:
   checkout:
   - uses: actions/checkout@v2
-    name: get the repo
-  - uses: actions/checkout@v2
-    name: get the base ref
-    with:
-      ref: '${{ github.base_ref }}'
   yarn:
     setup: checkout
     steps:
       - run: yarn
+  
+  # This gets the list of files that changed in the current pull-request
+  # and puts then onto the ALL_CHANGED_FILES env variable, which several
+  # of our actions will use.
   changed-files:
     steps:
       - name: Get All Changed Files
-        uses: jaredly/get-changed-files@89d3dca932c398add78c3a16b639ee42f9cae4d2
+        uses: jaredly/get-changed-files@v1.0.1
         id: changed
         with:
-          format: 'json'
-          absolute: true
+          format: 'json' # robust to filenames with spaces
+          absolute: true # our tooling expects absolute paths
 
+      # Now we put it on the environment so that it can be
       - uses: allenevans/set-env@v2.0.0
         with:
-          ALL_CHANGED_FILES_DISABLED: '${{ steps.changed.outputs.added_modified }}'
+          ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'

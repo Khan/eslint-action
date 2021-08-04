@@ -8,16 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'khan-actions-bot'
     steps:
-      - name: "\U0001F53D Start setup [checkout]"
-        run: echo "Setting something up"
       - uses: actions/checkout@v2
-        name: get the repo
-      - uses: actions/checkout@v2
-        name: get the base ref
-        with:
-          ref: '${{ github.base_ref }}'
-      - name: "\U0001F53C Finished setup [checkout]"
-        run: echo "Finished setting it up"
+        name: '▶️ Setup checkout: '
       - id: paths__github_workflow_templates_
         name: 'Check paths: .github/workflow-templates/**'
         run: >-
