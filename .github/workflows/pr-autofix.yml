@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
         name: get the repo
       - uses: actions/checkout@v2
-        name: get the repo
+        name: get the base ref
         with:
           ref: '${{ github.base_ref }}'
       - name: "\U0001F53C Finished setup [checkout]"

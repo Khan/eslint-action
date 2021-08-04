@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
         name: get the repo
       - uses: actions/checkout@v2
-        name: get the repo
+        name: get the base ref
         with:
           ref: '${{ github.base_ref }}'
       - name: "\U0001F53C Finished setup [checkout]"
@@ -20,7 +20,7 @@ jobs:
       - name: "\U0001F53D Start setup [changed-files]"
         run: echo "Setting something up"
       - name: Get All Changed Files
-        uses: jaredly/get-changed-files@absolute
+        uses: jaredly/get-changed-files@696e6f79663205e7f00ff5856e87d59c03160982
         id: changed
         with:
           format: json
