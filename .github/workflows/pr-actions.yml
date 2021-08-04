@@ -7,8 +7,21 @@ jobs:
   lint_and_unit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-        name: '▶️ Setup checkout: get the repo'
+      - uses: actions/checkout@v2
+        name: '▶️ Setup checkout: '
+      - name: "\U0001F53D Start setup [changed-files]"
+        run: echo "Setting something up"
+      - name: Get All Changed Files
+        uses: jaredly/get-changed-files@v1.0.1
+        id: changed
+        with:
+          format: json
+          absolute: true
+      - uses: allenevans/set-env@v2.0.0
+        with:
+          ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'
+      - name: "\U0001F53C Finished setup [changed-files]"
+        run: echo "Finished setting it up"
       - run: yarn
         name: '▶️ Setup yarn: '
       - name: Run eslint

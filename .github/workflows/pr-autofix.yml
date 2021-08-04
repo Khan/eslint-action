@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'khan-actions-bot'
     steps:
-      - uses: actions/checkout@v1
-        name: '▶️ Setup checkout: get the repo'
+      - uses: actions/checkout@v2
+        name: '▶️ Setup checkout: '
       - id: paths__github_workflow_templates_
         name: 'Check paths: .github/workflow-templates/**'
         run: >-
