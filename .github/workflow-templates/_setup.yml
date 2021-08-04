@@ -18,4 +18,4 @@ setup:
 
       - uses: allenevans/set-env@v2.0.0
         with:
-          ALL_CHANGED_FILES_DISABLED: '${{ steps.changed.outputs.added_modified }}'
+          ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'
