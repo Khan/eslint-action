@@ -19,7 +19,3 @@ setup:
       - uses: allenevans/set-env@v2.0.0
         with:
           ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'
-
-      - name: Debug
-        run: |
-          echo The files that were changed: ${ALL_CHANGED_FILES}
