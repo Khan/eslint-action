@@ -14,8 +14,8 @@ type LintSuggestion = {
 type Severity = 0 | 1 | 2;
 
 // Change this file, and see if the child PR thinks it's changed as well
-const lint_error =  "hello";
-let other_wrror = 23;
+const lint_error = 'hello';
+const other_wrror = 23;
 
 type LintMessage = {
     column: number,
