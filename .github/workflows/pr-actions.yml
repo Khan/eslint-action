@@ -20,7 +20,7 @@ jobs:
       - name: "\U0001F53D Start setup [changed-files]"
         run: echo "Setting something up"
       - name: Get All Changed Files
-        uses: jaredly/get-changed-files@696e6f79663205e7f00ff5856e87d59c03160982
+        uses: jaredly/get-changed-files@89d3dca932c398add78c3a16b639ee42f9cae4d2
         id: changed
         with:
           format: json
