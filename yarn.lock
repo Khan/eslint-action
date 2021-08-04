@@ -1168,6 +1168,15 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.2.0.tgz#17ea7e40d7c8640ff54a694c889c26f31704effe"
   integrity sha512-apwXVmYVpQ34m/i71vrApRrRKCWQnZZF1+npOD0WV5xZFfwWOmKGQ2RWlfdy9vWITsenisM8M0Qeq8agcFHNiQ==
 
+"actions-utils@git+https://git@github.com/Khan/actions-utils#changed-better":
+  version "1.2.4"
+  resolved "git+https://git@github.com/Khan/actions-utils#4d660a61d586f1581182c282a68c67385e695c36"
+  dependencies:
+    "@actions/github" "^2.1.1"
+    chalk "^2.4.2"
+    cli-highlight "^2.1.4"
+    minimatch "^3.0.4"
+
 "actions-utils@git+https://git@github.com/Khan/actions-utils#v1.2.5":
   version "1.2.4"
   resolved "git+https://git@github.com/Khan/actions-utils#2fb7c74158e8f96f7f891c0d58f5c5feb08e8615"

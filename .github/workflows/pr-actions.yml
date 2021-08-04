@@ -9,10 +9,23 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         name: '▶️ Setup checkout: get the repo'
+      - name: "\U0001F53D Start setup [changed-files]"
+        run: echo "Setting something up"
+      - name: Get All Changed Files
+        uses: jaredly/get-changed-files@absolute
+        id: changed
+        with:
+          format: json
+          absolute: true
+      - uses: allenevans/set-env@v2.0.0
+        with:
+          ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'
+      - name: "\U0001F53C Finished setup [changed-files]"
+        run: echo "Finished setting it up"
       - run: yarn
         name: '▶️ Setup yarn: '
       - name: Run eslint
-        uses: Khan/eslint-action@main
+        uses: Khan/eslint-action@da16c43dd352e1e606c838008e7f25e3bf3fbf97
         with:
           eslint-lib: ./node_modules/eslint
         env:

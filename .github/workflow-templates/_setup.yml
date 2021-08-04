@@ -7,3 +7,15 @@ setup:
     setup: checkout
     steps:
       - run: yarn
+  changed-files:
+    steps:
+      - name: Get All Changed Files
+        uses: jaredly/get-changed-files@absolute
+        id: changed
+        with:
+          format: 'json'
+          absolute: true
+
+      - uses: allenevans/set-env@v2.0.0
+        with:
+          ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'

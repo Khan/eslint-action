@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run eslint
-        uses: Khan/eslint-action@main
-        setup: yarn
+        uses: Khan/eslint-action@da16c43dd352e1e606c838008e7f25e3bf3fbf97
+        setup: [yarn, changed-files]
         with:
           eslint-lib: ./node_modules/eslint
         env:
@@ -19,7 +19,7 @@ jobs:
 
       - name: Run jest tests
         uses: Khan/jest-action@main
-        setup: yarn
+        setup: [yarn, changed-files]
         with:
           jest-bin: ./node_modules/.bin/jest
         env:
@@ -27,7 +27,7 @@ jobs:
 
       - name: Run jest coverage
         uses: Khan/jest-coverage-action@main
-        setup: yarn
+        setup: [yarn, changed-files]
         with:
           jest-bin: ./node_modules/.bin/jest
           coverage-data-path: ./coverage/coverage-final.json
@@ -36,7 +36,7 @@ jobs:
 
       - name: Run flow
         uses: Khan/flow-action@main
-        setup: yarn
+        setup: [yarn, changed-files]
         with:
           flow-bin: ./node_modules/.bin/flow
         env:
@@ -44,7 +44,7 @@ jobs:
 
       - name: Run flow coverage
         uses: Khan/flow-coverage-action@main
-        setup: yarn
+        setup: [yarn, changed-files]
         with:
           flow-bin: ./node_modules/.bin/flow
         env:
