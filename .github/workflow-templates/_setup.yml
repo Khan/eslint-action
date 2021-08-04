@@ -19,7 +19,8 @@ setup:
           format: 'json' # robust to filenames with spaces
           absolute: true # our tooling expects absolute paths
 
-      # Now we put it on the environment so that it can be
+      # Now we put it on the environment so that it can be picked up by
+      # anything that uses actions-utils (e.g. eslint-action, jest-action, etc.)
       - uses: allenevans/set-env@v2.0.0
         with:
           ALL_CHANGED_FILES: '${{ steps.changed.outputs.added_modified }}'

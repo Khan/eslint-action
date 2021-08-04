@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run eslint
-        uses: Khan/eslint-action@da16c43dd352e1e606c838008e7f25e3bf3fbf97
+        uses: Khan/eslint-action@main
         setup: [yarn, changed-files]
         with:
           eslint-lib: ./node_modules/eslint
