@@ -17,7 +17,7 @@
         "@babel/core": "^7.9.6",
         "@babel/register": "^7.9.0",
         "@zeit/ncc": "^0.22.1",
-        "actions-utils": "git+https://git@github.com/Khan/actions-utils#v1.3.0",
+        "actions-utils": "git+https://git@github.com/Khan/actions-utils#969b7f029704657383ad391da33770a02a864a52",
         "actions-workflow-tools": "git+https://git@github.com/Khan/actions-workflow-tools#v1.2.5",
         "babel-eslint": "^10.1.0",
         "chalk": "^2.4.2",
