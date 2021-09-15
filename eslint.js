@@ -134,7 +134,9 @@ async function run() {
 
     const current = path.resolve(workingDirectory || '');
     const files = await gitChangedFiles(baseRef, '.');
-    core.info(`runAllIfChanged`)
+    core.info(`runAllIfChanged`);
+    core.info(`files = ${files.join(", ")}`);
+    core.info(`current = ${current}`);
     const shouldRunAll = runAllIfChanged.some(name =>
         files.some(file => {
             console.log(`${path.relative(current, file)} === ${name}`);
