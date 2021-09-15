@@ -134,9 +134,6 @@ async function run() {
 
     const current = path.resolve('');
     const files = await gitChangedFiles(baseRef, '.');
-    core.info(`runAllIfChanged`);
-    core.info(`files = ${files.join(", ")}`);
-    core.info(`current = ${current}`);
     const shouldRunAll = runAllIfChanged.some(name =>
         files.some(file => {
             console.log(`${path.relative(current, file)} === ${name}`);
@@ -144,7 +141,6 @@ async function run() {
         }),
     );
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
-    core.info(`shouldRunAll = ${shouldRunAll}`);
     const jsFiles = shouldRunAll
         ? // Get all files
           ['.']
@@ -155,7 +151,6 @@ async function run() {
         core.info(`Changed files:\n - ${files.join('\n - ')}`); // flow-uncovered-line
         return;
     }
-    core.info(`jsFiles = ${jsFiles}`);
     const annotations = await eslintAnnotations('.', eslintDirectory, jsFiles);
     await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
 }
