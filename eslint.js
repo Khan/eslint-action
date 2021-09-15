@@ -156,7 +156,7 @@ async function run() {
         return;
     }
     core.info(`jsFiles = ${jsFiles}`);
-    const annotations = await eslintAnnotations(workingDirectory || '.', eslintDirectory, jsFiles);
+    const annotations = await eslintAnnotations('.', eslintDirectory, jsFiles);
     await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
 }
 
