@@ -134,14 +134,22 @@ async function run() {
 
     const current = path.resolve(workingDirectory || '');
     const files = await gitChangedFiles(baseRef, '.');
-    const shouldRunAll = runAllIfChanged.some(name =>
-        files.some(file => path.relative(current, file) === name),
+    const relativeFiles = files.map(file => path.relative(current, file));
+    const shouldRunAll = runAllIfChanged.some(ifChangedFile =>
+        relativeFiles.includes(ifChangedFile),
     );
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = shouldRunAll
         ? // Get all files
           ['.']
         : files.filter(file => validExt.includes(path.extname(file)));
+
+    if (runAllIfChanged.length && !shouldRunAll) {
+        core.info(
+            `[run-all-if-changed]: Checked the following files: ${runAllIfChanged.join(', ')}`,
+        );
+        core.info(`[run-all-if-changed]: No matches among: ${relativeFiles.join(', ')}`);
+    }
 
     if (!jsFiles.length) {
         core.info('No JavaScript files changed'); // flow-uncovered-line
