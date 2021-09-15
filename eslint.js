@@ -135,10 +135,7 @@ async function run() {
     const current = path.resolve('');
     const files = await gitChangedFiles(baseRef, '.');
     const shouldRunAll = runAllIfChanged.some(name =>
-        files.some(file => {
-            console.log(`${path.relative(current, file)} === ${name}`);
-            return path.relative(current, file) === name;
-        }),
+        files.some(file => path.relative(current, file) === name),
     );
     const validExt = ['.js', '.jsx', '.mjs', '.ts', '.tsx'];
     const jsFiles = shouldRunAll
