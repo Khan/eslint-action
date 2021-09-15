@@ -132,7 +132,7 @@ async function run() {
         return;
     }
 
-    const current = path.resolve(workingDirectory || '');
+    const current = path.resolve('');
     const files = await gitChangedFiles(baseRef, '.');
     const shouldRunAll = runAllIfChanged.some(name =>
         files.some(file => path.relative(current, file) === name),
@@ -148,7 +148,7 @@ async function run() {
         core.info(`Changed files:\n - ${files.join('\n - ')}`); // flow-uncovered-line
         return;
     }
-    const annotations = await eslintAnnotations(workingDirectory || '.', eslintDirectory, jsFiles);
+    const annotations = await eslintAnnotations('.', eslintDirectory, jsFiles);
     await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
 }
 
