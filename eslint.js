@@ -109,6 +109,8 @@ const parseList = (text) /*: Array<string>*/ => {
     return text.split(',');
 };
 async function run() {
+    const current = path.resolve(workingDirectory || '');
+
     const eslintDirectory = process.env['INPUT_ESLINT-LIB'];
     const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
     const runAllIfChanged = parseList(process.env['INPUT_RUN-ALL-IF-CHANGED']);
@@ -132,7 +134,6 @@ async function run() {
         return;
     }
 
-    const current = path.resolve(workingDirectory || '');
     const files = await gitChangedFiles(baseRef, '.');
     core.info(`runAllIfChanged`);
     core.info(`files = ${files.join(", ")}`);
