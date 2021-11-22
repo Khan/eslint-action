@@ -43,8 +43,15 @@ const eslintAnnotations = async (
 
     if (eslint.ESLint) {
         core.info(`version: ${eslint.ESLint.version}`);
+        // NOTE(somewhatabstract): We cannot use `resolvePluginsRelativeTo`
+        // here right now as it assumes all modules are imported via file paths
+        // but some use the `exports` field in package.json to map psuedo-paths
+        // to real imports and this mechanism breaks when
+        // `resolvePluginsRelativeTo` is specified.
+        // Better to let it do the default, which is to resolve the config from
+        // the eslint folder.
         const cli = new eslint.ESLint({
-            resolvePluginsRelativeTo: baseDirectory,
+            // resolvePluginsRelativeTo: baseDirectory,
         });
         formatter = await cli.loadFormatter('stylish');
         results = await cli.lintFiles(files);
