@@ -13,11 +13,11 @@
 // $FlowFixMe: shhhhh
 require('@babel/register'); // flow-uncovered-line
 
-const sendReport = require('actions-utils/send-report');
 const gitChangedFiles = require('actions-utils/git-changed-files');
 const getBaseRef = require('actions-utils/get-base-ref');
 const {cannedGithubErrorMessage} = require('actions-utils/get-base-ref');
 const core = require('@actions/core'); // flow-uncovered-line
+const {exec} = require('@actions/exec'); // flow-uncovered-line
 
 const path = require('path');
 const chalk = require('chalk');
@@ -35,37 +35,6 @@ const eslintAnnotations = async (
     files /*: Array<string> */,
 ) /*: Promise<Array<Message>> */ => {
     /* flow-uncovered-block */
-    core.info(path.resolve("eslint"));
-    // $FlowFixMe: flow can't handle custom requires
-    const eslint = require("eslint");
-
-    let results /*: Array<LintResult> */ = [];
-    let formatter /*: Formatter */;
-
-    if (eslint.ESLint) {
-        core.info(`version: ${eslint.ESLint.version}`);
-        const cli = new eslint.ESLint({
-            resolvePluginsRelativeTo: baseDirectory,
-        });
-        formatter = await cli.loadFormatter('stylish');
-        results = await cli.lintFiles(files);
-    } else if (eslint.CLIEngine) {
-        // Handle old versions of eslint (< 7)
-        core.info(`version: ${eslint.CLIEngine.version}`);
-        const cli = new eslint.CLIEngine({
-            resolvePluginsRelativeTo: baseDirectory,
-        });
-        formatter = {
-            format: cli.getFormatter('stylish'),
-        };
-        const report /*: LintReport */ = cli.executeOnFiles(files);
-        /* end flow-uncovered-block */
-        results = report.results;
-    } else {
-        throw new Error(`'eslint-lib: ${eslintDirectory}' is incorrect`);
-    }
-
-    /* flow-uncovered-block */
     // Log which files are being linted.
     const cwd = process.cwd();
     core.startGroup('Running eslint on the following files:');
@@ -74,49 +43,23 @@ const eslintAnnotations = async (
     }
     core.endGroup();
 
-    // Log all results since the number of annotations we can have is limited.
-    core.startGroup('Results:');
-    core.info(formatter.format(results));
-    core.endGroup();
-    /* end flow-uncovered-block */
+    const args = [
+      path.resolve(eslintDirectory, 'bin', 'eslint'),
+      ...files,
+    ].filter(Boolean);
 
-    const annotations /*: Array<Message> */ = [];
-    for (const result of results) {
-        const {filePath, messages} = result;
-        for (const msg of messages) {
-            const {line, column, severity, ruleId, message} = msg;
-            if (!ruleId || severity === 0) {
-                // it's probably the warning about a given file being ignored
-                // by .eslintignore, which is fine.
-                continue;
-            }
-            annotations.push({
-                path: filePath,
-                start: {line, column},
-                end: {line, column},
-                annotationLevel: severity === 1 ? 'warning' : 'failure',
-                message: `${chalk.red(`[${ruleId}]`)} ${message}`,
-            });
-        }
-    }
-
-    return annotations;
+    return await exec('node', args, {
+        cwd: baseDirectory,
+    } );
 };
 
-const parseList = (text) /*: Array<string>*/ => {
-    if (!text || !text.length) {
-        return [];
-    }
-    return text.split(',');
-};
 async function run() {
-    const eslintDirectory = process.env['INPUT_ESLINT-LIB'];
-    const workingDirectory = process.env['INPUT_CUSTOM-WORKING-DIRECTORY'];
-    const runAllIfChanged = parseList(process.env['INPUT_RUN-ALL-IF-CHANGED']);
+    const eslintDirectory = core.getInput("eslint-lib", {required: true});
+    const workingDirectory = core.getInput("custom-working-directory");
+    const runAllIfChanged = core.getMultilineInput("run-all-if-changed");
     if (workingDirectory != null && workingDirectory.trim() !== '') {
         process.chdir(workingDirectory);
     }
-    const subtitle = process.env['INPUT_CHECK-RUN-SUBTITLE'];
     if (!eslintDirectory) {
         /* flow-uncovered-block */
         core.error(
@@ -149,12 +92,11 @@ async function run() {
         core.info(`Changed files:\n - ${files.join('\n - ')}`); // flow-uncovered-line
         return;
     }
-    const annotations = await eslintAnnotations('.', eslintDirectory, jsFiles);
-    await sendReport(`Eslint${subtitle ? ' - ' + subtitle : ''}`, annotations);
+    await eslintAnnotations('.', eslintDirectory, jsFiles);
 }
 
 // flow-next-uncovered-line
 run().catch(err => {
-    core.error(err); // flow-uncovered-line
+    core.setFailed(err); // flow-uncovered-line
     process.exit(1);
 });
