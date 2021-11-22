@@ -4,14 +4,13 @@
         "jest": true
     },
     "parser": "@babel/eslint-parser",
-    "parserOptions": {
-        "sourceType": "module"
-    },
     "plugins": [
+        "prettier",
         "flowtype",
         "@babel"
     ],
     "rules": {
+        "prettier/prettier": "error",
         // The default rule wants to enforce // @flow, but we frequently have it
         // as part of the file's docstring.
         "flowtype/require-valid-file-annotation": [

@@ -30,7 +30,6 @@ import type {Formatter, LintReport, LintResult} from './types.js';
 */
 
 const eslintAnnotations = async (
-    baseDirectory /*: string */,
     eslintDirectory /*: string */,
     files /*: Array<string> */,
 ) /*: Promise<Array<Message>> */ => {
@@ -47,18 +46,17 @@ const eslintAnnotations = async (
         core.endGroup();
     }
 
-    const args = [
-      path.resolve(eslintDirectory, 'bin', 'eslint'),
-      ...files,
-    ].filter(Boolean);
+    const args = [path.resolve(eslintDirectory, 'bin', 'eslint'), ...files].filter(Boolean);
 
-    return await exec('node', args);
+    return await exec('node', args, {
+        cwd,
+    });
 };
 
 async function run() {
-    const eslintDirectory = core.getInput("eslint-lib", {required: true});
-    const workingDirectory = core.getInput("custom-working-directory");
-    const runAllIfChanged = core.getMultilineInput("run-all-if-changed");
+    const eslintDirectory = core.getInput('eslint-lib', {required: true});
+    const workingDirectory = core.getInput('custom-working-directory');
+    const runAllIfChanged = core.getMultilineInput('run-all-if-changed');
     if (workingDirectory != null && workingDirectory.trim() !== '') {
         process.chdir(workingDirectory);
     }
@@ -94,7 +92,7 @@ async function run() {
         core.info(`Changed files:\n - ${files.join('\n - ')}`); // flow-uncovered-line
         return;
     }
-    await eslintAnnotations('.', eslintDirectory, jsFiles);
+    await eslintAnnotations(eslintDirectory, jsFiles);
 }
 
 // flow-next-uncovered-line
