@@ -37,20 +37,22 @@ const eslintAnnotations = async (
     /* flow-uncovered-block */
     // Log which files are being linted.
     const cwd = process.cwd();
-    core.startGroup('Running eslint on the following files:');
-    for (const file of files) {
-        core.info(path.relative(cwd, file));
+    if (files.length === 1 && files[0] === '.') {
+        core.info(`Linting all relevant files in ${cwd}`);
+    } else {
+        core.startGroup('Running eslint on the following files:');
+        for (const file of files) {
+            core.info(path.relative(cwd, file));
+        }
+        core.endGroup();
     }
-    core.endGroup();
 
     const args = [
       path.resolve(eslintDirectory, 'bin', 'eslint'),
       ...files,
     ].filter(Boolean);
 
-    return await exec('node', args, {
-        cwd: baseDirectory,
-    } );
+    return await exec('node', args);
 };
 
 async function run() {
