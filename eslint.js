@@ -35,8 +35,9 @@ const eslintAnnotations = async (
     files /*: Array<string> */,
 ) /*: Promise<Array<Message>> */ => {
     /* flow-uncovered-block */
+    core.info(path.resolve("eslint"));
     // $FlowFixMe: flow can't handle custom requires
-    const eslint = require(path.resolve(eslintDirectory));
+    const eslint = require("eslint");
 
     let results /*: Array<LintResult> */ = [];
     let formatter /*: Formatter */;
