@@ -6,8 +6,8 @@
     "author": "Jared Forsyth <jared@jaredforsyth.com>",
     "license": "MIT",
     "scripts": {
-        "format": "prettier-eslint --write --config .prettierrc '**/*.js'",
-        "format-files": "prettier-eslint --write --config .prettierrc",
+        "format": "eslint --fix --ext .js",
+        "format-files": "eslint --fix",
         "lint": "./node_modules/.bin/eslint .",
         "test": "jest",
         "dist": "ncc build eslint.js"
@@ -29,8 +29,7 @@
         "eslint-plugin-prettier": "^4.0.0",
         "flow-bin": "^0.123.0",
         "metro-react-native-babel-preset": "^0.59.0",
-        "prettier": "^2.4.1",
-        "prettier-eslint-cli": "^5.0.1"
+        "prettier": "^2.4.1"
     },
     "dependencies": {
         "@actions/core": "^1.6.0",
