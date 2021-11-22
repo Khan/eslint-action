@@ -46,7 +46,14 @@ const eslintAnnotations = async (
         core.endGroup();
     }
 
-    const args = [path.resolve(eslintDirectory, 'bin', 'eslint'), ...files].filter(Boolean);
+    const args = [
+        path.resolve(eslintDirectory, 'bin', 'eslint'),
+        '--ext',
+        '.js',
+        '--ext',
+        '.jsx',
+        ...files,
+    ].filter(Boolean);
 
     return await exec('node', args, {
         cwd,

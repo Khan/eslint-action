@@ -6,9 +6,9 @@
     "author": "Jared Forsyth <jared@jaredforsyth.com>",
     "license": "MIT",
     "scripts": {
-        "format": "eslint --fix --ext .js",
+        "format": "eslint --fix --ext .js .",
         "format-files": "eslint --fix",
-        "lint": "./node_modules/.bin/eslint .",
+        "lint": "./node_modules/.bin/eslint --ext .js .",
         "test": "jest",
         "dist": "ncc build eslint.js"
     },
