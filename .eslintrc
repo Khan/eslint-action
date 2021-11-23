@@ -3,15 +3,20 @@
         "node": true,
         "jest": true
     },
-    "parser": "babel-eslint",
-    "parserOptions": {
-        "sourceType": "module"
-    },
-    "plugins": ["flowtype"],
+    "parser": "@babel/eslint-parser",
+    "plugins": [
+        "prettier",
+        "flowtype",
+        "@babel"
+    ],
     "rules": {
+        "prettier/prettier": "error",
         // The default rule wants to enforce // @flow, but we frequently have it
         // as part of the file's docstring.
-        "flowtype/require-valid-file-annotation": [0, "always"],
+        "flowtype/require-valid-file-annotation": [
+            0,
+            "always"
+        ],
         // ---------------------------------------
         // ES6 rules.
         "constructor-super": 2,
@@ -35,14 +40,25 @@
             2,
             {
                 "properties": "never",
-                "allow": ["^UNSAFE_"]
+                "allow": [
+                    "^UNSAFE_"
+                ]
             }
         ],
         "curly": 2,
-        "eqeqeq": [2, "allow-null"],
+        "eqeqeq": [
+            2,
+            "allow-null"
+        ],
         "guard-for-in": 2,
-        "linebreak-style": [2, "unix"],
-        "max-lines": [2, 1000],
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "max-lines": [
+            2,
+            1000
+        ],
         "no-alert": 2,
         "no-array-constructor": 2,
         "no-debugger": 2,
@@ -59,12 +75,24 @@
         // NOTE: If you change the options here, be sure to update eslintrc.flow also
         "no-unused-expressions": [
             2,
-            {"allowShortCircuit": true, "allowTernary": true}
+            {
+                "allowShortCircuit": true,
+                "allowTernary": true
+            }
         ],
-        "no-unused-vars": [2, {"args": "none", "varsIgnorePattern": "^_*$"}],
+        "no-unused-vars": [
+            2,
+            {
+                "args": "none",
+                "varsIgnorePattern": "^_*$"
+            }
+        ],
         "no-useless-call": 2,
         "no-with": 2,
-        "one-var": [2, "never"],
+        "one-var": [
+            2,
+            "never"
+        ],
         // TODO(scottgrant): Add additional a11y rules as we support them.
         // ---------------------------------------
         // Stuff that's disabled for now, but maybe shouldn't be.
@@ -76,16 +104,20 @@
         // use jsdoc anywhere it seems silly to require it yet.
         "valid-jsdoc": 0,
         "require-jsdoc": 0,
-        "flowtype/boolean-style": [2, "boolean"],
+        "flowtype/boolean-style": [
+            2,
+            "boolean"
+        ],
         "flowtype/define-flow-type": 1, // suppress no-undef on flow types
         "flowtype/no-dupe-keys": 2,
-
         // Use Flow's version of no-unused-expressions
         "flowtype/no-unused-expressions": [
             2,
-            {"allowShortCircuit": true, "allowTernary": true}
+            {
+                "allowShortCircuit": true,
+                "allowTernary": true
+            }
         ],
-
         "flowtype/no-weak-types": 0, // allow 'any' for now
         // flow may still require parameter types in certain situations
         "flowtype/require-parameter-type": 0,
@@ -94,11 +126,13 @@
         "flowtype/type-id-match": 0,
         "flowtype/use-flow-type": 1 // suppress no-unused-vars on flow types
     },
-    "extends": ["prettier/flowtype"],
+    "extends": [
+        "prettier"
+    ],
     "globals": {
-        "DEBUG": false,
-        "Promise": false,
-        "Set": false,
-        "__DEV__": [false /* writable */, true /* readable */]
+        "DEBUG": "readonly",
+        "Promise": "readonly",
+        "Set": "readonly",
+        "__DEV__": "readonly"
     }
 }

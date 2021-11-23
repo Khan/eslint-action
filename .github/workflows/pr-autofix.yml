@@ -36,7 +36,7 @@ jobs:
         if: steps.paths__github_workflow_templates_.outputs.changed == 'true'
       - name: Run prettier
         run: >-
-          node ./node_modules/actions-utils/list-changed-files.js | grep
+          node ./node_modules/actions-utils/list-changed-files.js main | grep
           '.*\.js$' | xargs npm run -s format-files
       - name: Rebuild our "dist" file
         run: yarn run dist
