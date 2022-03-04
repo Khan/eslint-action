@@ -25,7 +25,7 @@ jobs:
       - run: yarn
         name: '▶️ Setup yarn: '
       - name: Run eslint
-        uses: Khan/eslint-action@main
+        uses: ./
         with:
           eslint-lib: ./node_modules/eslint
         env:
