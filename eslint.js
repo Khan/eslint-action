@@ -13,7 +13,7 @@
 // $FlowFixMe: shhhhh
 require('@babel/register'); // flow-uncovered-line
 
-const gitChangedFiles = require('actions-utils/git-changed-files');
+const getChangedFilesFromEnv = require('actions-utils/get-changed-files-from-env');
 const getBaseRef = require('actions-utils/get-base-ref');
 const {cannedGithubErrorMessage} = require('actions-utils/get-base-ref');
 const core = require('@actions/core'); // flow-uncovered-line
@@ -76,15 +76,13 @@ async function run() {
         process.exit(1);
         return;
     }
-    const baseRef = getBaseRef();
-    if (!baseRef) {
-        core.error(cannedGithubErrorMessage()); // flow-uncovered-line
-        process.exit(1);
-        return;
-    }
 
     const current = path.resolve('');
-    const files = await gitChangedFiles(baseRef, '.');
+    const files = getChangedFilesFromEnv('.');
+    if (!files) {
+        core.error(`Expected ALL_CHANGED_FILES env variable to be populated.`);
+        return;
+    }
     const shouldRunAll = runAllIfChanged.some(name =>
         files.some(file => path.relative(current, file) === name),
     );
