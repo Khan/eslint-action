@@ -29,6 +29,12 @@ chalk.enabled = !process.env.GITHUB_TOKEN;
 const checkRef = ref => spawnSync('git', ['rev-parse', ref, '--']).status === 0;
 
 const validateBaseRef = (baseRef /*:string*/) /*: string | null */ => {
+    
+    const {stdout, stderr,error) = spawnSync('git', ['rev-parse', ref, '--'], {stdio: 'inherit'});
+    core.info(stdout);
+    core.info(stderr);
+    core.info(error.message);
+    
     // It's locally accessible!
     if (checkRef(baseRef)) {
         return baseRef;
@@ -40,11 +46,6 @@ const validateBaseRef = (baseRef /*:string*/) /*: string | null */ => {
         return remote;
     }
 
-    const {stdout, stderr,error) = spawnSync('git', ['rev-parse', ref, '--'], {stdio: 'inherit'});
-    core.info(stdout);
-    core.info(stderr);
-    core.info(error.message);
-    
     // Otherwise return null - no valid ref provided
     return null;
 };
