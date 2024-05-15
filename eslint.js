@@ -14,7 +14,7 @@
 require('@babel/register'); // flow-uncovered-line
 
 const gitChangedFiles = require('actions-utils/git-changed-files');
-const getBaseRef = require('actions-utils/get-base-ref');
+//const getBaseRef = require('actions-utils/get-base-ref');
 const {cannedGithubErrorMessage} = require('actions-utils/get-base-ref');
 const core = require('@actions/core'); // flow-uncovered-line
 const {exec} = require('@actions/exec'); // flow-uncovered-line
@@ -23,6 +23,32 @@ const path = require('path');
 const chalk = require('chalk');
 
 chalk.enabled = !process.env.GITHUB_TOKEN;
+
+const checkRef = ref => spawnSync('git', ['rev-parse', ref, '--']).status === 0;
+
+const validateBaseRef = (baseRef /*:string*/) /*: string | null */ => {
+    // It's locally accessible!
+    if (checkRef(baseRef)) {
+        return baseRef;
+    }
+    // If it's not locally accessible, then it's probably a remote branch
+    const remote = `refs/remotes/origin/${baseRef}`;
+    if (checkRef(remote)) {
+        return remote;
+    }
+
+    // Otherwise return null - no valid ref provided
+    return null;
+};
+
+const getBaseRef = (head /*:string*/ = 'HEAD') /*: string | null */ => {
+    const {GITHUB_BASE_REF} = process.env;
+    if (GITHUB_BASE_REF) {
+        return validateBaseRef(GITHUB_BASE_REF);
+    } else {
+        return null;
+    }
+};
 
 /*::
 import type {Message} from 'actions-utils/send-report';
