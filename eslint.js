@@ -13,6 +13,8 @@
 // $FlowFixMe: shhhhh
 require('@babel/register'); // flow-uncovered-line
 
+const {spawnSync} = require('child_process');
+
 const gitChangedFiles = require('actions-utils/git-changed-files');
 //const getBaseRef = require('actions-utils/get-base-ref');
 const {cannedGithubErrorMessage} = require('actions-utils/get-base-ref');
@@ -31,12 +33,18 @@ const validateBaseRef = (baseRef /*:string*/) /*: string | null */ => {
     if (checkRef(baseRef)) {
         return baseRef;
     }
+    
     // If it's not locally accessible, then it's probably a remote branch
     const remote = `refs/remotes/origin/${baseRef}`;
     if (checkRef(remote)) {
         return remote;
     }
 
+    const {stdout, stderr,error) = spawnSync('git', ['rev-parse', ref, '--'], {stdio: 'inherit'});
+    core.info(stdout);
+    core.info(stderr);
+    core.info(error.message);
+    
     // Otherwise return null - no valid ref provided
     return null;
 };
